@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.myshiro.dao.RolePermissionDao">
+
+
+    <select id="queryRolePermissionByRoleId"  parameterType="java.lang.String" resultMap="RolePermissionList">
+        select id,roleId,permId from t_role_perm where roleId = #{roleId}
+    </select>
+
+    <resultMap id="RolePermissionList" type="com.demo.myshiro.entity.RolePermission">
+        <result property="id" column="id"/>
+        <result property="roleId" column="roleId"/>
+        <result property="permissionId" column="permId"/>
+    </resultMap>
+</mapper>
