@@ -31,6 +31,8 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filterMap);
 
         Map<String,String> map = new HashMap<>();
+        map.put("/webjars/**", "anon");
+        //map.put("/layui.js","anon");
         map.put("/layui/**","anon");
         map.put("/swagger/**", "anon");
         map.put("/v2/api-docs", "anon");
