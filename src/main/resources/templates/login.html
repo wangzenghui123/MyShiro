@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./jquery.js"></script>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+<!--    "./layui/"与“/layui”相比，前面多了项目名称，-->
+<!--    http://localhost:8080/shiro/layui/layui.js-->
+<!--    http://localhost:8080/layui/layui.js-->
+</head>
+<body>
+<h1>登陆页面</h1>
+<form class="layui-form" id="loginForm" action="">
+    用户名：<input type="text" name="username"/><br/>
+    密码  : <input type="password" name="password"/><br/>
+    <input type="submit" id="submit" value="登录"/>
+</form>
+
+<script>
+    layui.use(['form','jquery'],function (){
+       alert(1)
+        // form.on('submit(LoginForm)',function (data){
+        //     alert(1)
+        //     var arry = $('form').serializeArray();
+        //     $.ajax({
+        //         type : "post"
+        //         ,url : "/user/login"
+        //         ,data : {"loginReqVO" : JSON.stringify(arry)}
+        //         ,dataType : "json"
+        //         ,async : false
+        //         ,contentType : "application/json;charset=UTF-8"
+        //         ,success : function(){
+        //             alert("chenggong")
+        //         }
+        //     });
+        //     return false;
+        // })
+    })
+</script>
+</body>
+</html>
