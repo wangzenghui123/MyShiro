@@ -12,7 +12,9 @@ public enum BaseResponseCode implements ResponseCodeInterface{
     TOKEN_ERROR("4010001","token认证失败，请重新登录获取token"),
     ACCOUNT_LOCK("4010001","账号被锁定，联系管理员"),
     ACCOUNT_HAS_DELETED_ERROR("4010001","账号已被删除，请联系管理员"),
-    TOKEN_PAST_DUE("4010002","token失效，请刷新token")
+    TOKEN_PAST_DUE("4010002","token失效，请刷新token"),
+
+    NOT_PERMISSION("4030001","没有权限访问资源")
     ;
 
     private final String code;

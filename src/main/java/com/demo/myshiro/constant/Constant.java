@@ -1,5 +1,7 @@
 package com.demo.myshiro.constant;
 
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+
 public class Constant {
 
     //存放在Claims中的，当前用户的用户名key,通过此key可以获得用户名（value）
@@ -22,6 +24,9 @@ public class Constant {
 
     //redis中，用户账户被删除，”JWT_REFRESH_KEY + 用户id“
     public static final String DELETED_USER_KEY = "deleted-user-key_";
+
+    public static final String IDENTITY_CACHE_KEY= "com.demo.myshiro.SimpleAuthorizationInfo_";
+
 
 
 

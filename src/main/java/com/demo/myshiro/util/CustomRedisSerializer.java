@@ -2,6 +2,7 @@ package com.demo.myshiro.util;
 
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.util.Assert;
@@ -9,6 +10,7 @@ import org.springframework.util.Assert;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+@Slf4j
 public class CustomRedisSerializer implements RedisSerializer<Object> {
 
     private final Charset charset;
@@ -29,6 +31,7 @@ public class CustomRedisSerializer implements RedisSerializer<Object> {
         if(o == null) return new byte[0];
         if(o instanceof byte[]) return (byte[])o;
         if(o instanceof  String) return o.toString().getBytes(StandardCharsets.UTF_8);
+        log.info("序列化完成");
         return JSON.toJSONString(o).getBytes(StandardCharsets.UTF_8);
     }
 

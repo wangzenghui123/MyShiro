@@ -108,14 +108,14 @@ class MyShiroApplicationTests {
 
     @Test
     void testRedis(){
-//        User user = new User();
-//        user.setUsername("wzh");
-//        user.setPassword("123");
-//        redisTemplate.opsForValue().set("user1",user);
+        User user = new User();
+        user.setUsername("wzh");
+        user.setPassword("123");
+        redisTemplate.opsForValue().set("user1",user);
 
-        String  o = (String) redisTemplate.opsForValue().get("user1");
-        User user = JSON.parseObject(o,User.class);
-        System.out.println(user);
+//        String  o = (String) redisTemplate.opsForValue().get("user1");
+//        User user = JSON.parseObject(o,User.class);
+//        System.out.println(user);
 
     }
 

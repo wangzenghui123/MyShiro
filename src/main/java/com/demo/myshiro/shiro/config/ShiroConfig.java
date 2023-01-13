@@ -17,6 +17,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+
     @Bean
     public CustomCacheManager customCacheManager(){
         return new CustomCacheManager();
@@ -35,6 +36,7 @@ public class ShiroConfig {
 //        customRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 //        customRealm.setCacheManager(new CustomCacheManager());
         customRealm.setCredentialsMatcher(customHashCredentialMatcher());
+        customRealm.setCacheManager(customCacheManager());
         customRealm.setCachingEnabled(true);
         customRealm.setAuthorizationCachingEnabled(true);
         // customRealm.setAuthenticationCachingEnabled(true);
