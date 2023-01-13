@@ -1,12 +1,9 @@
 package com.demo.myshiro.util;
 
+
 import com.alibaba.fastjson.JSON;
-import com.sun.org.apache.xpath.internal.operations.String;
-import org.apache.shiro.util.StringUtils;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.nio.charset.Charset;

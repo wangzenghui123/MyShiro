@@ -1,5 +1,7 @@
 package com.demo.myshiro;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demo.myshiro.entity.*;
 import com.demo.myshiro.service.*;
 import com.demo.myshiro.shiro.realm.CustomRealm;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -105,8 +108,15 @@ class MyShiroApplicationTests {
 
     @Test
     void testRedis(){
-        System.out.println(redisTemplate.hasKey("wzh"));
-        //redisTemplate.opsForValue().set("name","mike");
+//        User user = new User();
+//        user.setUsername("wzh");
+//        user.setPassword("123");
+//        redisTemplate.opsForValue().set("user1",user);
+
+        String  o = (String) redisTemplate.opsForValue().get("user1");
+        User user = JSON.parseObject(o,User.class);
+        System.out.println(user);
+
     }
 
     @Test

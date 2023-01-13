@@ -1,19 +1,9 @@
 package com.demo.myshiro.shiro.cache;
 
-import com.demo.myshiro.util.CustomRedisSerializer;
 import com.demo.myshiro.util.SpringUtil;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.ui.context.support.UiApplicationContextUtils;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import org.thymeleaf.spring5.context.SpringContextUtils;
 
 import java.util.Collection;
 import java.util.List;
