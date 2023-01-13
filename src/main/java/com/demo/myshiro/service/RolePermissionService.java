@@ -1,4 +1,4 @@
-package com.demo.myshiro.service.impl;
+package com.demo.myshiro.service;
 
 import com.demo.myshiro.entity.RolePermission;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,23 +1,23 @@
 package com.demo.myshiro.controller;
 
 import com.demo.myshiro.entity.SysUser;
-import com.demo.myshiro.entity.User;
 import com.demo.myshiro.exception.BusinessException;
-import com.demo.myshiro.service.impl.SysUserService;
+import com.demo.myshiro.service.SysUserService;
 import com.demo.myshiro.util.DataResult;
 import com.demo.myshiro.vo.req.LoginReqVO;
+import com.demo.myshiro.vo.req.UserPageReqVO;
 import com.demo.myshiro.vo.resp.LoginRespVO;
+import com.demo.myshiro.vo.resp.PageRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -43,7 +43,7 @@ public class UserController {
             return "redirect:/register.jsp";
         }
     }
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "用户登录方法")
     public DataResult  login(@RequestBody LoginReqVO loginReqVO) throws BusinessException {
@@ -58,6 +58,7 @@ public class UserController {
     public String loginHTML(){
         return "login";
     }
+
     @RequestMapping("/logout")
     public String logout(){
         Subject subject = SecurityUtils.getSubject();
@@ -67,5 +68,15 @@ public class UserController {
         subject.logout();
         return  "redirect:/login.jsp";
 
+    }
+
+    @RequestMapping(value = "/aaa",method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "页码获取用户列表")
+    public DataResult<PageRespVO<SysUser>> pageInfo(@RequestBody UserPageReqVO userPageReqVO){
+        DataResult<PageRespVO<SysUser>> dataResult = DataResult.success();
+        PageRespVO<SysUser> sysUserPageRespVO = userService.selectAll(userPageReqVO);
+        dataResult.setData(sysUserPageRespVO);
+        return dataResult;
     }
 }

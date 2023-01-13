@@ -1,8 +1,8 @@
-package com.demo.myshiro.service;
+package com.demo.myshiro.service.impl;
 
 import com.demo.myshiro.dao.UserRoleDao;
 import com.demo.myshiro.entity.UserRole;
-import com.demo.myshiro.service.impl.UserRoleService;
+import com.demo.myshiro.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

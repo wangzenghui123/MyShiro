@@ -1,7 +1,7 @@
 package com.demo.myshiro;
 
 import com.demo.myshiro.entity.*;
-import com.demo.myshiro.service.impl.*;
+import com.demo.myshiro.service.*;
 import com.demo.myshiro.shiro.realm.CustomRealm;
 import com.demo.myshiro.util.SaltUtil;
 import com.demo.myshiro.util.SpringUtil;
@@ -105,7 +105,8 @@ class MyShiroApplicationTests {
 
     @Test
     void testRedis(){
-        redisTemplate.opsForValue().set("name","mike");
+        System.out.println(redisTemplate.hasKey("wzh"));
+        //redisTemplate.opsForValue().set("name","mike");
     }
 
     @Test

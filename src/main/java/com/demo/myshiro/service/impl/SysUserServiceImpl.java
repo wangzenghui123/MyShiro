@@ -1,18 +1,20 @@
-package com.demo.myshiro.service;
+package com.demo.myshiro.service.impl;
 
 import com.demo.myshiro.constant.Constant;
-import com.demo.myshiro.dao.SysUserDao;
 import com.demo.myshiro.dao.SysUserDao;
 import com.demo.myshiro.entity.SysUser;
 import com.demo.myshiro.exception.BusinessException;
 import com.demo.myshiro.exception.code.BaseResponseCode;
-import com.demo.myshiro.service.impl.SysUserService;
+import com.demo.myshiro.service.SysUserService;
 import com.demo.myshiro.util.JwtTokenUtil;
+import com.demo.myshiro.util.PageUtil;
 import com.demo.myshiro.util.SaltUtil;
 import com.demo.myshiro.vo.req.LoginReqVO;
+import com.demo.myshiro.vo.req.UserPageReqVO;
 import com.demo.myshiro.vo.resp.LoginRespVO;
+import com.demo.myshiro.vo.resp.PageRespVO;
+import com.github.pagehelper.PageHelper;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +53,7 @@ public class SysUserServiceImpl implements SysUserService {
             throw new BusinessException(BaseResponseCode.ACCOUNT_ERROR);
         }
         if(user.getStatus().equals("1")){
-            throw  new BusinessException(BaseResponseCode.ACCOUNT_LOCK);
+            throw  new BusinessException(BaseResponseCode.ACCOUNT_LOCK_TIP);
         }
         if(!user.getPassword().equals(SaltUtil.getMD5Password(user.getSalt(),loginReqVO.getPassword()))){
             throw  new BusinessException(BaseResponseCode.ACCOUNT_PASSWORD_ERROR);
@@ -74,6 +76,14 @@ public class SysUserServiceImpl implements SysUserService {
         loginRespVO.setRefreshToken(refreshToken);
         loginRespVO.setUserId(user.getId());
         return loginRespVO;
+    }
+
+    @Override
+    public PageRespVO<SysUser> selectAll(UserPageReqVO userPageReqVO) {
+        PageHelper.startPage(userPageReqVO.getPageNum(), userPageReqVO.getPageSize());
+        List<SysUser> sysUsers = userDao.selectAll(userPageReqVO);
+        //PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
+        return PageUtil.getPageRespVO(sysUsers);
     }
 
     private List<String> getRoleByUserId(String userId){
