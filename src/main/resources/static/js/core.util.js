@@ -1,8 +1,8 @@
 var CoreUtil = (function (){
     var coreUtil = {}
-    coreUtil.sendAjax = function (url,params,ft,method,async,contentType){
+    coreUtil.sendAjax = function (url,params,ft,method,headers,async,contentType){
         var roleSaveLoading = top.layer.msg('数据提交中，请稍后...',{icon:16,time:false,shade:0.8})
-        $.ajax({
+        layui.jquery.ajax({
             url:url
             ,cache:false
             ,data:params
@@ -10,11 +10,22 @@ var CoreUtil = (function (){
             ,async: async == undefined ? true : async
             ,contentType: contentType == null ? 'application/json;charset=utf-8' : contentType
             ,dataType:'json'
+            ,beforeSend:function (XMLHttpRequest) {
+                let accessToken = CoreUtil.getData("accessToken");
+                if(accessToken != null && accessToken != undefined){
+                    XMLHttpRequest.setRequestHeader("accessToken",accessToken)
+                }
+                let refreshToken = CoreUtil.getData("refreshToken");
+                if(refreshToken != null && accessToken != undefined){
+                    XMLHttpRequest.setRequestHeader("refreshToken",refreshToken)
+                }
+            }
             ,success:function (res){
                 if(typeof ft == 'function'){
-                    if(res.code === 0){
+                    if(res.code == '0'){
                         if(ft != null && ft != undefined){
                             ft(res)
+                            top.layer.close(roleSaveLoading);
                         }
                     }else{
                         layer.msg(res.msg)
@@ -33,10 +44,10 @@ var CoreUtil = (function (){
         })
     };
     coreUtil.setData = function (key,value){
-        layui.data('token',{key:key,value:value})
+        layui.sessionData('token',{key:key,value:value})
     }
     coreUtil.getData = function (key){
-        let data = layui.data('token');
+        let data = layui.sessionData('token');
         return data[key];
     }
     return coreUtil;

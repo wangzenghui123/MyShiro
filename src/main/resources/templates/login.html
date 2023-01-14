@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="./jquery.js"></script>
     <link rel="stylesheet" href="./layui/css/layui.css">
     <script src="./layui/layui.js"></script>
     <script src="./js/core.util.js"></script>
@@ -16,7 +15,7 @@
 <form class="layui-form" id="loginForm" action="">
     用户名：<input type="text" name="username"/><br/>
     密码  : <input type="password" name="password"/><br/>
-    密码  : <input type="password" name="type"/><br/>
+    密码  : <input type="type" name="type" value="1"/><br/>
     <input type="submit" id="submit" lay-submit lay-filter="LoginForm"value="登录"/>
 </form>
 
@@ -25,19 +24,24 @@
         var form = layui.form;
         var $ = layui.jquery;
         form.on('submit(LoginForm)',function (data){
-            $.ajax({
-                type : "post"
-                ,url : "/shiro/user/login"
-                ,data : JSON.stringify(data.field)
-                ,dataType : "json"
-                ,async : false
-                ,contentType : "application/json;charset=UTF-8"
-                ,success : function(res){
-                    alert(res)
-                }
-            });
+            CoreUtil.sendAjax("/shiro/user/login",JSON.stringify(data.field),storeToken,"post",true,false,"application/json;charset=UTF-8")
+            // $.ajax({
+            //     type : "post"
+            //     ,url : "/shiro/user/login"
+            //     ,data : JSON.stringify(data.field)
+            //     ,dataType : "json"
+            //     ,async : false
+            //     ,contentType : "application/json;charset=UTF-8"
+            //     ,success : function(res){
+            //
+            //     }
+            // });
             return false;
         })
+       var storeToken =  function(res){
+            CoreUtil.setData("accessToken",res.data.accessToken)
+            CoreUtil.setData("refreshToken",res.data.refreshToken)
+        }
     })
 </script>
 </body>
