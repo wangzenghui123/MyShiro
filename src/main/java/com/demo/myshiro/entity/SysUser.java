@@ -17,6 +17,8 @@ public class SysUser implements Serializable {
 
     private String salt;
 
+    private Integer age;
+
     private String password;
 
     private String phone;

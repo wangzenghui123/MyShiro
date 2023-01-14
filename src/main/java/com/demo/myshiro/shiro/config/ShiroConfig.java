@@ -62,7 +62,9 @@ public class ShiroConfig {
         //在 filterChainDefinitionMap 下面最多可以配置 12 条验证规则
         map.put("/webjars/**", "anon");
         map.put("/layui/**","anon");
+        map.put("/js/**","anon");
         map.put("/swagger/**", "anon");
+        map.put("/index/**", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources/**", "anon");

@@ -32,15 +32,15 @@ public class UserController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping("/register")
-    public String register(SysUser user){
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    public String register(@RequestBody SysUser user){
         try {
             System.out.println(user.toString());
             userService.register(user);
-            return "redirect:/login.jsp";
+            return "login";
         }catch (Exception e){
             e.printStackTrace();
-            return "redirect:/register.jsp";
+            return "register";
         }
     }
     @RequestMapping(value = "/login",method = RequestMethod.POST)
