@@ -91,6 +91,10 @@ public class JwtTokenUtil {
         builder.setHeaderParam("typ","jwt");
         long currentTimeMillis = System.currentTimeMillis();
         builder.setIssuedAt(new Date(currentTimeMillis));
+
+        if(null != claims){
+            builder.setClaims(claims);
+        }
         if(!StringUtils.isEmpty(issuer)){
             builder.setIssuer(issuer);
         }
@@ -100,9 +104,7 @@ public class JwtTokenUtil {
         if(!StringUtils.isEmpty(subject)){
             builder.setSubject(subject);
         }
-       if(null != claims){
-           builder.setClaims(claims);
-       }
+
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         byte[] bytes = DatatypeConverter.parseBase64Binary(secret);
         builder.signWith(signatureAlgorithm,bytes);

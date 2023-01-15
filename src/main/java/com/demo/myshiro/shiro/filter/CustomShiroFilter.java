@@ -21,7 +21,6 @@ import java.io.PrintWriter;
 @Slf4j
 public class CustomShiroFilter extends AccessControlFilter {
 
-
     //返回true，进入下一个filter
     //返回false，进入onAccessDenied方法
     @Override
@@ -64,9 +63,12 @@ public class CustomShiroFilter extends AccessControlFilter {
             DataResult<BusinessException> dataResult = new DataResult<>();
             dataResult.setCode(e.getCode());
             dataResult.setMsg(e.getMsg());
+
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.setCharacterEncoding("UTF-8");
             httpServletResponse.setContentType("application/json;charset=utf-8");
+
+
             PrintWriter writer = httpServletResponse.getWriter();
             writer.write(JSON.toJSONString(dataResult));
             writer.flush();

@@ -13,6 +13,6 @@ public class CustomCacheManager implements CacheManager {
     @Override
     public <K, V> Cache<K, V> getCache(String cacheName) throws CacheException {
         System.out.println("name:  "+cacheName);
-        return new CustomCache<K,V>(redisService);
+        return new CustomCache<>(redisService);
     }
 }

@@ -8,6 +8,7 @@ import com.demo.myshiro.shiro.token.CustomUsernamePasswordToken;
 import com.demo.myshiro.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import lombok.SneakyThrows;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -21,7 +22,8 @@ public class CustomHashCredentialMatcher  extends HashedCredentialsMatcher {
     @SneakyThrows
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
-        CustomUsernamePasswordToken customUsernamePasswordToken = (CustomUsernamePasswordToken) token;
+        System.out.println("进入doCredentialsMatch");
+        CustomUsernamePasswordToken customUsernamePasswordToken = (CustomUsernamePasswordToken)token;;
         String userId = JwtTokenUtil.getUserId((String) customUsernamePasswordToken.getPrincipal());
         if(redisService.hasKey(Constant.DELETED_USER_KEY+userId)){
             throw new BusinessException(BaseResponseCode.ACCOUNT_HAS_DELETED_ERROR);

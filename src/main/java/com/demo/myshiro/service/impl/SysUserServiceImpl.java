@@ -48,7 +48,6 @@ public class SysUserServiceImpl implements SysUserService {
     public LoginRespVO login(LoginReqVO loginReqVO) throws BusinessException {
         String username = loginReqVO.getUsername();
         SysUser user = userDao.queryUserByName(username);
-        System.out.println(user.toString());
         if(null == user){
             throw new BusinessException(BaseResponseCode.ACCOUNT_ERROR);
         }

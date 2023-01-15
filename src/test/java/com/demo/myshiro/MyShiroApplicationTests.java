@@ -2,15 +2,19 @@ package com.demo.myshiro;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.demo.myshiro.constant.Constant;
 import com.demo.myshiro.entity.*;
 import com.demo.myshiro.service.*;
 import com.demo.myshiro.shiro.realm.CustomRealm;
+import com.demo.myshiro.util.JwtTokenUtil;
 import com.demo.myshiro.util.SaltUtil;
 import com.demo.myshiro.util.SpringUtil;
 
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -21,6 +25,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @SpringBootTest
@@ -121,7 +126,12 @@ class MyShiroApplicationTests {
 
     @Test
     void testRedisTemplate(){
-        Object redisTemplate = SpringUtil.getBean("redisTemplate");
-        System.out.println(redisTemplate == null);
+//        Object redisTemplate = SpringUtil.getBean("redisTemplate");
+//        System.out.println(redisTemplate == null);
+        Claims claimsFromToken = JwtTokenUtil.getClaimsFromToken("eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNzFjMmYxOC03ODVlLTQyYTktOTUyYi0xMzNhOGE4MzA3ZGYiLCJyb2xlcy1pbmZvcy1rZXkiOlsiYWRtaW4iLCJkZXYiXSwicGVybWlzc2lvbnMtaW5mb3Mta2V5IjpbInN5czp1c2VyOmRlbGV0ZSIsInN5czp1c2VyOnF1ZXJ5Iiwic3lzOnVzZXI6dXBkYXRlIiwic3lzOnVzZXI6YWRkIl0sImlzcyI6Inlpbmd4dWUuY29tIiwiand0LXVzZXItbmFtZS1rZXkiOiJ3emgiLCJleHAiOjE2NzM4MTIxODV9._jT67lBkQ1KofDpas59exeZzwxoOZAoreHdKIpoMUEg");
+        if(claimsFromToken.get(Constant.ROLES_INFOS_KEY) != null){
+            Object o = claimsFromToken.get(Constant.ROLES_INFOS_KEY);
+            System.out.println(o.toString());
+        }
     }
 }

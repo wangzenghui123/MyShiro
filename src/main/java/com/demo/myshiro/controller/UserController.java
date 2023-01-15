@@ -3,6 +3,7 @@ package com.demo.myshiro.controller;
 import com.demo.myshiro.entity.SysUser;
 import com.demo.myshiro.exception.BusinessException;
 import com.demo.myshiro.service.SysUserService;
+import com.demo.myshiro.shiro.token.CustomUsernamePasswordToken;
 import com.demo.myshiro.util.DataResult;
 import com.demo.myshiro.vo.req.LoginReqVO;
 import com.demo.myshiro.vo.req.UserPageReqVO;
@@ -46,11 +47,11 @@ public class UserController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "用户登录方法")
-    public DataResult  login(@RequestBody LoginReqVO loginReqVO) throws BusinessException {
+    public DataResult login(@RequestBody LoginReqVO loginReqVO) throws BusinessException {
         DataResult dataResult = DataResult.success();
-        System.out.println(loginReqVO.toString());
         LoginRespVO login = userService.login(loginReqVO);
         dataResult.setData(login);
+        SecurityUtils.getSubject().login(new CustomUsernamePasswordToken(login.getAccessToken()));
         return dataResult;
     }
 
@@ -70,7 +71,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/aaa",method = RequestMethod.POST)
+    @RequestMapping(value = "/pageInfo",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation(value = "页码获取用户列表")
     public DataResult<PageRespVO<SysUser>> pageInfo(@RequestBody UserPageReqVO userPageReqVO){
