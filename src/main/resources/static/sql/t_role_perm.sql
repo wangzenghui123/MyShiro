@@ -1,0 +1,13 @@
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('1', '1', '1');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('10', '1', '10');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('12', '2', '7');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('13', '3', '8');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('14', '3', '9');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('2', '1', '2');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('3', '1', '3');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('4', '1', '4');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('5', '1', '5');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('6', '1', '6');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('7', '1', '7');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('8', '1', '8');
+INSERT INTO `t_role_perm`(`id`, `roleId`, `permId`) VALUES ('9', '1', '9');
