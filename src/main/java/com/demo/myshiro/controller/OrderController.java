@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class OrderController {
 
     @RequestMapping("/lisi")
-    //@RequiresRoles("admin")
+    @RequiresRoles("admin")
     @ApiOperation(value = "订单列表")
-    @ResponseBody
     public String list(){
-
-        return "redirect:/order.jsp";
+        return "main";
     }
 }

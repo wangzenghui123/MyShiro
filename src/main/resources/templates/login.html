@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="./layui/layui.js"></script>
     <script src="./js/core.util.js"></script>
 <!--    "./layui/"与“/layui”相比，前面多了项目名称，-->
@@ -20,29 +20,19 @@
 </form>
 
 <script>
-    // layui.use(['form','jquery'],function (){
-    //     var form = layui.form;
-    //     var $ = layui.jquery;
-    //     form.on('submit(LoginForm)',function (data){
-    //         CoreUtil.sendAjax("/shiro/user/login",JSON.stringify(data.field),storeToken,"post",true,false,"application/json;charset=UTF-8")
-    //         // $.ajax({
-    //         //     type : "post"
-    //         //     ,url : "/shiro/user/login"
-    //         //     ,data : JSON.stringify(data.field)
-    //         //     ,dataType : "json"
-    //         //     ,async : false
-    //         //     ,contentType : "application/json;charset=UTF-8"
-    //         //     ,success : function(res){
-    //         //
-    //         //     }
-    //         // });
-    //         return false;
-    //     })
-    //    var storeToken =  function(res){
-    //         CoreUtil.setData("accessToken",res.data.accessToken)
-    //         CoreUtil.setData("refreshToken",res.data.refreshToken)
-    //     }
-    // })
+    layui.use(['form','jquery'],function (){
+        var form = layui.form;
+        var $ = layui.jquery;
+        form.on('submit(LoginForm)',function (data){
+            CoreUtil.sendAjax("/shiro/user/login",JSON.stringify(data.field),storeToken,"post",true,false,"application/json;charset=UTF-8")
+            return false;
+        })
+       var storeToken =  function(res){
+            CoreUtil.setData("accessToken",res.data.accessToken)
+            CoreUtil.setData("refreshToken",res.data.refreshToken)
+            window.location.href = "/shiro/index/home"
+        }
+    })
 </script>
 </body>
 </html>

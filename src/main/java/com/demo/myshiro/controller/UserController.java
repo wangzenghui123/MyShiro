@@ -51,7 +51,6 @@ public class UserController {
         DataResult dataResult = DataResult.success();
         LoginRespVO login = userService.login(loginReqVO);
         dataResult.setData(login);
-        SecurityUtils.getSubject().login(new CustomUsernamePasswordToken(login.getAccessToken()));
         return dataResult;
     }
 

@@ -6,7 +6,7 @@
 
 
     <select id="queryRoleById" resultType="com.demo.myshiro.entity.Role" parameterType="java.lang.String">
-        select id,name from t_role where id = #{id}
+        select id,name from sys_role where id = #{id}
     </select>
 
 </mapper>
