@@ -6,8 +6,7 @@
 </head>
 <body>
 <ul>
-    111
-    <shiro:hasPermission name="order:delete:*">
+    <shiro:hasPermission name="sys:user:delete">
         <li><a href="#">删除订单</a></li>
     </shiro:hasPermission>
     <shiro:hasPermission name="order:find:*">
@@ -23,7 +22,7 @@
         <li><a href="#">商品管理</a></li>
     </shiro:hasPermission>
 
-    <shiro:hasRole name="admin">
+    <shiro:hasRole name="adwmin">
         <li><a href="#">订单管理</a></li>
         <li><a href="#">物流管理</a></li>
     </shiro:hasRole>

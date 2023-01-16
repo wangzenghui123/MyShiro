@@ -76,9 +76,6 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
-        Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put("token",new CustomShiroFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);
 
         Map<String,String> map = new LinkedHashMap<>();
         //在 filterChainDefinitionMap 下面最多可以配置 12 条验证规则
@@ -90,11 +87,15 @@ public class ShiroConfig {
         map.put("/v2/api-docs", "anon");
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources/**", "anon");
-        map.put("/user/login","anon");
+        map.put("/user/**","anon");
        // map.put("/register.jsp","anon");
         map.put("/login.html","anon");
         map.put("/**","token,authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("token",new CustomShiroFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
 
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         return shiroFilterFactoryBean;

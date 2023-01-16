@@ -14,4 +14,10 @@ public class IndexController {
     public String error(){
         return "error/404";
     }
+
+    @GetMapping("/home")
+    public String home(){
+
+        return "home";
+    }
 }

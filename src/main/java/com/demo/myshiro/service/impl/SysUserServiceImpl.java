@@ -1,7 +1,13 @@
 package com.demo.myshiro.service.impl;
 
 import com.demo.myshiro.constant.Constant;
+import com.demo.myshiro.dao.PermissionDao;
+import com.demo.myshiro.dao.RoleDao;
+import com.demo.myshiro.dao.RolePermissionDao;
 import com.demo.myshiro.dao.SysUserDao;
+import com.demo.myshiro.entity.Permission;
+import com.demo.myshiro.entity.Role;
+import com.demo.myshiro.entity.RolePermission;
 import com.demo.myshiro.entity.SysUser;
 import com.demo.myshiro.exception.BusinessException;
 import com.demo.myshiro.exception.code.BaseResponseCode;
@@ -27,6 +33,15 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private PermissionDao permissionDao;
+
+    @Autowired
+    private RolePermissionDao rolePermissionDao;
 
     @Override
     public void register(SysUser user) {
@@ -86,14 +101,28 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     private List<String> getRoleByUserId(String userId){
-        List<String> roleList = new ArrayList<>();
-        roleList.add("admin");
-        roleList.add("dev");
-        return roleList;
+
+        //List<Role> roleList = roleDao.queryRoleById(userId);
+        List<String> list = new ArrayList<>();
+        list.add("admin");
+        list.add("dev");
+        return list;
     }
 
     private List<String> getPermissionByUserId(String userId){
         List<String> permissionList = new ArrayList<>();
+//        List<Role> roleList = roleDao.queryRoleById(userId);
+//        for (Role role : roleList) {
+//            List<RolePermission> rolePermissions = rolePermissionDao.queryRolePermissionByRoleId(role.getId());
+//            for (RolePermission rolePermission : rolePermissions) {
+//                String permissionId = rolePermission.getPermissionId();
+//                List<Permission> permissionList1 = permissionDao.queryPermissionById(permissionId);
+//                for (Permission permission : permissionList1) {
+//                    permissionList.add(permission.getName());
+//                }
+//            }
+//        }
+
         permissionList.add("sys:user:delete");
         permissionList.add("sys:user:query");
         permissionList.add("sys:user:update");

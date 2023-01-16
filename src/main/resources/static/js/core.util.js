@@ -13,7 +13,7 @@ var CoreUtil = (function (){
             ,beforeSend:function (XMLHttpRequest) {
                 let accessToken = CoreUtil.getData("authorization");
                 if(accessToken != null && accessToken != undefined){
-                    XMLHttpRequest.setRequestHeader("accessToken",accessToken)
+                    XMLHttpRequest.setRequestHeader("authorization",accessToken)
                 }
                 let refreshToken = CoreUtil.getData("refreshToken");
                 if(refreshToken != null && accessToken != undefined){
