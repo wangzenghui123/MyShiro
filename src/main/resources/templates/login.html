@@ -28,9 +28,10 @@
             return false;
         })
        var storeToken =  function(res){
-            CoreUtil.setData("accessToken",res.data.accessToken)
-            CoreUtil.setData("refreshToken",res.data.refreshToken)
+            sessionStorage.setItem("accessToken",res.data.accessToken)
+            sessionStorage.setItem("refreshToken",res.data.refreshToken)
             window.location.href = "/shiro/index/home"
+
         }
     })
 </script>

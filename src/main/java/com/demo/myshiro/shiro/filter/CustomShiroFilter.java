@@ -32,7 +32,7 @@ public class CustomShiroFilter extends AccessControlFilter {
     //返回false,请求失败
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response)  {
-        System.out.println("进入CustomSHhiroFilter.......");
+        System.out.println("进入CustomShiroFilter.......");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String accessToken = httpServletRequest.getHeader(Constant.ACCESS_TOKEN);
         try {

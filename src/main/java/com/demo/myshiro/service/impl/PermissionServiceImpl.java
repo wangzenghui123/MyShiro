@@ -17,7 +17,7 @@ public class PermissionServiceImpl  implements PermissionService {
     private PermissionDao permissionDao;
 
     @Override
-    public List<Permission> queryPermissionById(String id) {
+    public Permission queryPermissionById(String id) {
         return permissionDao.queryPermissionById(id);
     }
 }

@@ -84,12 +84,15 @@ public class ShiroConfig {
         map.put("/js/**","anon");
         map.put("/swagger/**", "anon");
         map.put("/index/**", "anon");
+        map.put("/login/**", "anon");
+        map.put("/api/home", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources/**", "anon");
         map.put("/user/**","anon");
        // map.put("/register.jsp","anon");
         map.put("/login.html","anon");
+        map.put("/home.html","anon");
         map.put("/**","token,authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 

@@ -27,6 +27,12 @@
         where username = #{username} and deleted = 1
     </select>
 
+    <select id="queryUserById" resultType="com.demo.myshiro.entity.SysUser" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id} and deleted = 1
+    </select>
+
     <select id="queryRoleIdByUserId" resultType="java.lang.String" parameterType="java.lang.String">
         select distinct sur.role_id
         from sys_user su right join sys_user_role sur on su.id = sur.user_id

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PermissionService {
 
-    List<Permission> queryPermissionById(String id);
+    Permission queryPermissionById(String id);
 
 }

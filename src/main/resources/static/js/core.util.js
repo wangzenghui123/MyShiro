@@ -1,7 +1,7 @@
 var CoreUtil = (function (){
     var coreUtil = {}
     coreUtil.sendAjax = function (url,params,ft,method,headers,async,contentType){
-        var roleSaveLoading = top.layer.msg('数据提交中，请稍后...',{icon:16,time:false,shade:0.8})
+        //var roleSaveLoading = top.layer.msg('数据提交中，请稍后...',{icon:16,time:false,shade:0.8})
         layui.jquery.ajax({
             url:url
             ,cache:false
@@ -11,13 +11,13 @@ var CoreUtil = (function (){
             ,contentType: contentType == null ? 'application/json;charset=utf-8' : contentType
             ,dataType:'json'
             ,beforeSend:function (XMLHttpRequest) {
+                let accessToken = sessionStorage.getItem("accessToken");
+                let refreshToken = sessionStorage.getItem("refreshToken");
                 if(headers == undefined)return;
                 if(headers == false)return;
-                let accessToken = CoreUtil.getData("authorization");
                 if(accessToken != null && accessToken != undefined){
                     XMLHttpRequest.setRequestHeader("authorization",accessToken)
                 }
-                let refreshToken = CoreUtil.getData("refreshToken");
                 if(refreshToken != null && accessToken != undefined){
                     XMLHttpRequest.setRequestHeader("refreshToken",refreshToken)
                 }
@@ -25,9 +25,10 @@ var CoreUtil = (function (){
             ,success:function (res){
                 if(typeof ft == 'function'){
                     if(res.code == '0'){
+                        //top.layer.close(roleSaveLoading)
                         if(ft != null && ft != undefined){
                             ft(res)
-                            top.layer.close(roleSaveLoading);
+                            //top.layer.close(roleSaveLoading);
                         }
                     }else{
                         layer.msg(res.msg)
@@ -45,12 +46,5 @@ var CoreUtil = (function (){
 
         })
     };
-    coreUtil.setData = function (key,value){
-        layui.sessionData('token',{key:key,value:value})
-    }
-    coreUtil.getData = function (key){
-        let data = layui.sessionData('token');
-        return data[key];
-    }
     return coreUtil;
 })(CoreUtil,window)

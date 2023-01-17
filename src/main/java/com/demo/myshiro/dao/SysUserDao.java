@@ -13,6 +13,7 @@ public interface SysUserDao {
     void insert(SysUser user);
 
     SysUser queryUserByName(String username);
+    SysUser queryUserById(String userId);
 
     List<SysUser> selectAll(UserPageReqVO userPageReqVO);
     ArrayList<String> queryRoleIdByUserId(String userId);
