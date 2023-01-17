@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -73,7 +74,8 @@ class MyShiroApplicationTests {
 
     @Test
     void testUserService(){
-        User user = new User("1","wzh","123","QWER");
+        ArrayList<String> strings = userService.queryRoleIdByUserId("");
+        System.out.println(strings);
 //        userService.register(user);
 //        System.out.println(userService.queryUserByName("wzh").toString());
     }
@@ -88,13 +90,13 @@ class MyShiroApplicationTests {
 
     @Test
     void testRoleService(){
-        Role role = roleService.queryRoleById("1");
-        System.out.println(role.toString());
+        //Role role = roleService.queryRoleById("1");
+        //System.out.println(role.toString());
     }
     @Test
     void testPermissionService(){
-        Permission permission = permissionService.queryPermissionById("1");
-        System.out.println(permission.toString());
+       // Permission permission = permissionService.queryPermissionById("1");
+        //System.out.println(permission.toString());
     }
     @Test
     void testUserRoleService(){
@@ -113,10 +115,8 @@ class MyShiroApplicationTests {
 
     @Test
     void testRedis(){
-        User user = new User();
-        user.setUsername("wzh");
-        user.setPassword("123");
-        redisTemplate.opsForValue().set("user1",user);
+
+        //redisTemplate.opsForValue().set("user1",user);
 
 //        String  o = (String) redisTemplate.opsForValue().get("user1");
 //        User user = JSON.parseObject(o,User.class);

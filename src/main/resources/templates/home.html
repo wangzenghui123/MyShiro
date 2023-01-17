@@ -88,6 +88,8 @@
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
+
+
   <div class="layui-header">
     <div class="layui-logo layui-hide-xs layui-bg-black">layout demo</div>
     <!-- 头部区域（可配合layui 已有的水平导航） -->
@@ -133,7 +135,7 @@
     <div class="layui-side-scroll">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree" lay-filter="test">
-        <li class="layui-nav-item layui-nav-itemed">
+        <li class="layui-nav-item layui-nav-itemed" id="leftMenu">
           <a class="" href="javascript:;">menu group 1</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">menu 1</a></dd>
@@ -158,7 +160,7 @@
 
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">内容主体区域。记得修改 layui.css 和 js 的路径</div>
+    <div style="padding: 0px;">内容主体区域。记得修改 layui.css 和 js 的路径</div>
   </div>
 
   <div class="layui-footer">
@@ -167,4 +169,11 @@
   </div>
 </div>
 </body>
+<script>
+  var renderLeftMenu = function (res) {
+
+  }
+  CoreUtil.sendAjax("/shiro/api/home",null,renderLeftMenu,"GET",true,false)
+
+</script>
 </html>

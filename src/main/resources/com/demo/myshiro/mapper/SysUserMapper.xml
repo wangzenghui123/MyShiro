@@ -3,26 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.myshiro.dao.SysUserDao">
-    <sql id=""></sql>
+    <sql id="Base_Column_List">
+        id,username,password,salt,age,sex,phone,deptId,nickName,email,status,createId,updateId,createWhere,createTime,updateTime,deptName
+    </sql>
 
     <insert id="insert"   parameterType="com.demo.myshiro.entity.SysUser">
-        insert into sys_user( id,username,password,salt,age,sex,phone,deptId,nickName,email,status,createId,updateId,deleted,createWhere,createTime,updateTime,deptName )
+        insert into sys_user(<include refid="Base_Column_List"/>)
         values(
-        #{id},#{username},#{password},#{salt},#{age},#{sex},#{phone},#{deptId},#{nickName},#{email},#{status},#{createId},
-        #{updateId},#{deleted},#{createWhere},#{createTime},#{updateTime},#{deptName}
+         #{id},#{username},#{password},#{salt},#{age},#{sex},#{phone},#{deptId},#{nickName},#{email},#{status},#{createId},
+         #{updateId},#{deleted},#{createWhere},#{createTime},#{updateTime},#{deptName}
         )
     </insert>
 
-    <select id="selectAll" resultType="com.demo.myshiro.entity.SysUser" parameterType="java.lang.Integer">
-        select id,username,password,salt,age,sex,phone,deptId,nickName,email,status,createId,updateId,createWhere,createTime,updateTime,deptName
+    <select id="selectAll" resultType="com.demo.myshiro.entity.SysUser" parameterType="com.demo.myshiro.vo.req.UserPageReqVO">
+        select <include refid="Base_Column_List"/>
         from sys_user
-        where deleted = 0
+        where deleted = 1
     </select>
 
-    <select id="queryUserByName" resultType="com.demo.myshiro.entity.SysUser" parameterType="com.demo.myshiro.vo.req.UserPageReqVO">
-        select id,username,password,salt,age,sex,phone,deptId,nickName,email,status,createId,updateId,createWhere,createTime,updateTime,deptName
-        from sys_user where username = #{username}
-         and deleted = 0;
+    <select id="queryUserByName" resultType="com.demo.myshiro.entity.SysUser" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where username = #{username} and deleted = 1
+    </select>
+
+    <select id="queryRoleIdByUserId" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct sur.role_id
+        from sys_user su right join sys_user_role sur on su.id = sur.user_id
+        where su.id = #{id} and su.deleted = 1
     </select>
 
 

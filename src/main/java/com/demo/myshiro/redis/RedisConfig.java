@@ -1,6 +1,6 @@
 package com.demo.myshiro.redis;
 
-import com.demo.myshiro.entity.User;
+
 import com.demo.myshiro.util.CustomRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

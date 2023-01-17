@@ -100,6 +100,7 @@ public class SysUserServiceImpl implements SysUserService {
         return PageUtil.getPageRespVO(sysUsers);
     }
 
+
     private List<String> getRoleByUserId(String userId){
 
         //List<Role> roleList = roleDao.queryRoleById(userId);

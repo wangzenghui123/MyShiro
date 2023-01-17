@@ -4,9 +4,28 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.myshiro.dao.PermissionDao">
 
+    <sql id="Base_Column_List">id,code,name,perms,url,method,pid,order_num,type,status,create_time,update_time,deleted</sql>
 
-    <select id="queryPermissionById" resultType="com.demo.myshiro.entity.Permission" parameterType="java.lang.String">
-        select id,name from t_perm where id = #{id}
+    <select id="queryPermissionById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/>
+        from sys_permission
+        where id = #{id} and deleted = 1
     </select>
+
+    <resultMap id="BaseResultMap" type="com.demo.myshiro.entity.Permission">
+        <id column="id"  property="id"/>
+        <result column="code"  property="code"/>
+        <result column="name"  property="name"/>
+        <result column="perms" property="perms"/>
+        <result column="url"  property="url"/>
+        <result column="method" property="method"/>
+        <result column="pid"  property="pid"/>
+        <result column="order_num"  property="orderNum"/>
+        <result column="type"  property="type"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time"  property="updateTime"/>
+        <result column="deleted"  property="deleted"/>
+    </resultMap>
 
 </mapper>
