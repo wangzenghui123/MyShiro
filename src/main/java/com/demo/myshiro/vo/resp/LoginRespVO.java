@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@ApiModel(value = "登录相应VO")
+@ApiModel(value = "登录相应VO")
 public class LoginRespVO {
 
-    //@ApiModelProperty(value = "业务token")
+    @ApiModelProperty(value = "业务token")
     private String accessToken;
 
-    //@ApiModelProperty(value = "业务刷新token")
+    @ApiModelProperty(value = "业务刷新token")
     private String refreshToken;
 
-    //@ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id")
     private String userId;
 
 }

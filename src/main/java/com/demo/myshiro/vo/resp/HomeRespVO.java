@@ -15,6 +15,7 @@ public class HomeRespVO {
     @ApiModelProperty("首页用户信息")
     private UserInfoRespVO userInfoRespVO;
 
+
     @ApiModelProperty("首页左侧菜单（用户权限）")
     private PermissionRespNodeVO permissionRespNodeVO;
 }

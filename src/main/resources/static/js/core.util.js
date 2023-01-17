@@ -11,6 +11,8 @@ var CoreUtil = (function (){
             ,contentType: contentType == null ? 'application/json;charset=utf-8' : contentType
             ,dataType:'json'
             ,beforeSend:function (XMLHttpRequest) {
+                if(headers == undefined)return;
+                if(headers == false)return;
                 let accessToken = CoreUtil.getData("authorization");
                 if(accessToken != null && accessToken != undefined){
                     XMLHttpRequest.setRequestHeader("authorization",accessToken)
