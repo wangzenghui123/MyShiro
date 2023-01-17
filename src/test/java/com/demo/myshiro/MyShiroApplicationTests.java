@@ -74,8 +74,8 @@ class MyShiroApplicationTests {
 
     @Test
     void testUserService(){
-        ArrayList<String> strings = userService.queryRoleIdByUserId("");
-        System.out.println(strings);
+        //ArrayList<String> strings = userService.queryRoleIdByUserId("");
+        //System.out.println(strings);
 //        userService.register(user);
 //        System.out.println(userService.queryUserByName("wzh").toString());
     }
