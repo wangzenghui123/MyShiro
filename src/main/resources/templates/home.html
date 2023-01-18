@@ -62,7 +62,7 @@
         position: absolute;
         top: 40px;
         padding-bottom: 44px;
-        background-color: #2f4056;
+        /*background-color: #2f4056;*/
       }
       .layui-side-scroll {
         position: relative;
@@ -82,6 +82,28 @@
         position: absolute!important;
         left: 160px;
         top: 0;
+      }
+
+      .layui-tab {
+        margin: 0px 0;
+        text-align: left!important;
+      }
+      .layui-tab-title {
+        height: 40px;
+        border-bottom-width: 1px;
+      }
+
+      .layui-tab-title li {
+        position: relative;
+        line-height: 39px;
+        min-width: 65px;
+        padding-left: 7px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      li.layui-this{
+        padding-left: 5px;
       }
     </style>
 </head>
@@ -133,40 +155,29 @@
     </ul>
   </div>
 
+
   <div class="layui-side layui-bg-black">
-    <div class="layui-side-scroll">
+    <div class="layui-side-scroll" >
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-      <ul class="layui-nav layui-nav-tree" lay-filter="test">
-        <li class="layui-nav-item layui-nav-itemed" id="leftMenu">
-          <a class="" href="javascript:;">menu group 1</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">menu 1</a></dd>
-            <dd><a href="javascript:;">menu 2</a></dd>
-            <dd><a href="javascript:;">menu 3</a></dd>
-            <dd><a href="">the links</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">menu group 2</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">list 1</a></dd>
-            <dd><a href="javascript:;">list 2</a></dd>
-            <dd><a href="">超链接</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
-        <li class="layui-nav-item"><a href="">the links</a></li>
-      </ul>
+      <ul class="layui-nav layui-nav-tree" id="leftMenu"></ul>
     </div>
   </div>
 
+
+  <!-- 内容主体区域 -->
   <div class="layui-body">
-    <!-- 内容主体区域 -->
-    <div style="padding: 0px;">内容主体区域。记得修改 layui.css 和 js 的路径</div>
+    <div class="layui-tab layui-tab-brief" lay-filter="menuTab" lay-allowClose="true">
+      <ul class="layui-tab-title">
+
+      </ul>
+      <div class="layui-tab-content"></div>
+    </div>
   </div>
 
+
+  <!-- 底部固定区域 -->
   <div class="layui-footer">
-    <!-- 底部固定区域 -->
+
     底部固定区域
   </div>
 </div>
@@ -181,13 +192,81 @@
         var element = layui.element;
 
         let userInfo= res.data.userInfoRespVO;
-        $("#deptName").html("你好,"+userInfo.deptName+"&nbsp;&nbsp;&nbsp;"+userInfo.username)
+        $("#deptName").html("你好,"+userInfo.deptName+"&nbsp;&nbsp;&nbsp;"+userInfo.username);
 
+        let permissionList = res.data.permissionRespNodeVO;
+        let leftMenuHtml = "";
+        if(permissionList != null && permissionList.length > 0){
+          for (let i = 0; i < permissionList.length; i++) {
+            leftMenuHtml = leftMenuHtml + '<li class="layui-nav-item" >';
+            leftMenuHtml = leftMenuHtml + '<a className="" href="javascript:;">' + permissionList[i].name +  '</a>';
+            leftMenuHtml = leftMenuHtml + getChildrenHtml(permissionList[i].children);
+            leftMenuHtml = leftMenuHtml + ' </li>'
+          }
+        }
 
-
+        $("#leftMenu").html(leftMenuHtml);
+        element.render();
       })
   }
+
+  var getChildrenHtml = function (children) {
+    let menuHtml = "";
+    if(children != null && children.length > 0){
+      menuHtml = menuHtml + '<dl class="layui-nav-child">';
+      for (let i = 0; i < children.length; i++) {
+        menuHtml = menuHtml + '<dd><a data-id="'+children[i].id+'"'+'data-url="'+children[i].url+'"'+'data-name="'+children[i].name+'"'+' href="javascript:;" class="permission-item">' + children[i].name + '</a>';
+        let childrenHtml = getChildrenHtml(children[i].children,menuHtml);
+        menuHtml = menuHtml + childrenHtml;
+        menuHtml = menuHtml + '</dd>';
+      }
+      menuHtml = menuHtml + '</dl>'
+      return menuHtml;
+    }
+    return menuHtml;
+  }
+
+
   CoreUtil.sendAjax("/shiro/api/home",null,renderLeftMenu,"GET",true,false)
 
+
+  layui.use(['jquery','element'],function (){
+    var $ = layui.jquery;
+    var element = layui.element;
+    $(".permission-item").on('click',function () {
+      let dataId = $(this).attr("data-id");
+      let dataURL = $(this).attr("data-url");
+      let dataName = $(this).attr("data-name");
+      tabActive.tabAdd(dataId,dataURL,dataName);
+      element.render("tab","menuTab")
+    })
+
+    var tabActive = {
+
+      tabAdd : function (id,url,name) {
+        let layuiBody = document.getElementsByClassName("layui-body")[0];
+        let tabUL = layuiBody.getElementsByClassName("layui-tab-title")[0];
+        let tabList = tabUL.getElementsByTagName("li");
+        if(tabList == null || tabList == undefined || tabList.length == 0){
+          element.tabAdd('menuTab', {
+            title: name
+            ,content: url //支持传入html
+            ,id: id
+          });
+          location.hash = 'menuTab' + id;
+        }
+
+
+      }
+    }
+    // //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+    // var layid = location.hash.replace(/^#menuTab/, '');
+    // element.tabChange('menuTab', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
+    //
+    // // Tab 切换，以改变地址 hash 值
+    // element.on('tab(menuTab)', function(){
+    //   location.hash = 'test1='+ this.getAttribute('lay-id');
+    // });
+  })
 </script>
 </html>
