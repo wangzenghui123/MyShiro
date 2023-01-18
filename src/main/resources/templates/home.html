@@ -105,6 +105,13 @@
       li.layui-this{
         padding-left: 5px;
       }
+      iframe{
+        width: 100%;
+        border-width: 0px;
+      }
+      .layui-tab-content{
+        padding: 0px;
+      }
     </style>
 </head>
 <body>
@@ -238,9 +245,14 @@
       let dataURL = $(this).attr("data-url");
       let dataName = $(this).attr("data-name");
       tabActive.tabAdd(dataId,dataURL,dataName);
-      element.render("tab","menuTab")
+      fitFrame();
     })
 
+    var fitFrame = function () {
+      let bodyElementHeight= document.getElementsByClassName("layui-body")[0].clientHeight
+      let iframeHeight = bodyElementHeight -70;
+      document.getElementsByTagName("iframe")[0].height = iframeHeight
+    }
     var tabActive = {
 
       tabAdd : function (id,url,name) {
@@ -250,10 +262,27 @@
         if(tabList == null || tabList == undefined || tabList.length == 0){
           element.tabAdd('menuTab', {
             title: name
-            ,content: url //支持传入html
+            ,content: '<iframe src="/shiro'+url+'"></iframe>'
             ,id: id
           });
-          location.hash = 'menuTab' + id;
+          element.tabChange('menuTab', id);
+        }else{
+          let  mark = false;
+          for (let i = 0; i < tabList.length; i++) {
+            if(tabList[i].getAttribute("lay-id") == id){
+              element.tabChange('menuTab', id);
+              mark = true;
+              break;
+            }
+          }
+          if(!mark){
+            element.tabAdd('menuTab', {
+              title: name
+              ,content:  '<iframe src="/shiro'+url+'"></iframe>'
+              ,id: id
+            });
+            element.tabChange('menuTab', id);
+          }
         }
 
 
