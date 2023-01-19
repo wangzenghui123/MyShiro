@@ -83,6 +83,7 @@ public class ShiroConfig {
         map.put("/user/**","anon");
        // map.put("/register.jsp","anon");
         map.put("/login.html","anon");
+        map.put("/**/*.html","anon");
         map.put("/home.html","anon");
         map.put("/**","token,authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
