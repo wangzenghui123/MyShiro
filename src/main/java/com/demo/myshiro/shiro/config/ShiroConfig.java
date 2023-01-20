@@ -73,6 +73,7 @@ public class ShiroConfig {
         map.put("/webjars/**", "anon");
         map.put("/layui/**","anon");
         map.put("/js/**","anon");
+        map.put("/treetable-lay/**","anon");
         map.put("/swagger/**", "anon");
         map.put("/index/**", "anon");
         map.put("/login/**", "anon");

@@ -188,13 +188,12 @@
 
   <!-- 底部固定区域 -->
   <div class="layui-footer">
-
     底部固定区域
   </div>
 </div>
 </body>
-<script src="http://localhost:8080/shiro/layui/layui.js"></script>
-<script src="http://localhost:8080/shiro/js/core.util.js"></script>
+<script src="/shiro/layui/layui.js"></script>
+<script src="/shiro/js/core.util.js"></script>
 <script>
 
   var renderLeftMenu = function (res) {
@@ -290,14 +289,6 @@
         }
       }
     }
-    // //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
-    // var layid = location.hash.replace(/^#menuTab/, '');
-    // element.tabChange('menuTab', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
-    //
-    // // Tab 切换，以改变地址 hash 值
-    // element.on('tab(menuTab)', function(){
-    //   location.hash = 'test1='+ this.getAttribute('lay-id');
-    // });
   })
 </script>
 </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <link type="text/css" href="/shiro/layui/css/layui.css">
+</head>
+<body>
+    <div class="menu-table">
+        <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
+    </div>
+</body>
+<script src="/shiro/layui/layui.js"></script>
+<script src="/shiro/js/core.util.js"></script>
+<script>
+    layui.config({
+        base:"/shiro/"
+    }).extend({
+        treetable:"/treetable-lay/treetable"
+    })
+        .use(['treetable','tree','table','jquery','form','element'],function () {
+        var treetable = layui.treetable;
+        var tree = layui.tree;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element;
+        var initTreeTable = function (data){
+                treetable.render({
+                    data:data.data.permissionRespNodeVO,
+                    elem: '#menuTable',
+                    //toolbar: 'default',
+                    page:false,
+                    treeColIndex: 1,//层级关系展示在第几列
+                    treeSpid: 0,//是否有最高父id没有-1表示
+                    treeIdName: 'id',//每条数据id 字段
+                    treePidName: 'pid', //每天数据父id字段
+                    treeDefaultClose: false, // 是否默认折叠
+                    treeLinkage: false, // 父级展开时是否自动展开所有子级
+                    defaultToolbar: ['filter', 'print', 'exports'],
+                    cols: [
+                        [
+                        { type: 'checkbox'}
+                        , { field: 'id', title: 'ID' }
+                        , { field: 'name', title: '菜单名称'}
+
+                    ]
+                    ],
+                    style: 'margin-top:0;'
+                });
+            }
+        CoreUtil.sendAjax("/shiro/api/home",null,initTreeTable,"GET",true,false,null)
+
+        // 渲染表格
+
+
+
+    })
+</script>
+</html>
