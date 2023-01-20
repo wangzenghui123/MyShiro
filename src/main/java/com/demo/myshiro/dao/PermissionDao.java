@@ -9,4 +9,6 @@ import java.util.List;
 public interface PermissionDao {
 
     Permission queryPermissionById(String id);
+
+    List<Permission> selectAll();
 }

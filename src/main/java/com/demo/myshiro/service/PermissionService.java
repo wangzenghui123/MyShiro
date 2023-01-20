@@ -8,4 +8,6 @@ public interface PermissionService {
 
     Permission queryPermissionById(String id);
 
+    List<Permission> selectAll();
+
 }

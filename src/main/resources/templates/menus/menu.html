@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>menu</title>
-    <link type="text/css" href="/shiro/layui/css/layui.css">
+    <link rel="stylesheet" href="/shiro/layui/css/layui.css">
 </head>
 <body>
-    <div class="menu-table">
-        <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
-    </div>
+        <div class="menu-table">
+            <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
+        </div>
+
 </body>
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
 <script>
+
     layui.config({
         base:"/shiro/"
     }).extend({
@@ -27,7 +29,7 @@
         var element = layui.element;
         var initTreeTable = function (data){
                 treetable.render({
-                    data:data.data.permissionRespNodeVO,
+                    data:data.data,
                     elem: '#menuTable',
                     //toolbar: 'default',
                     page:false,
@@ -40,16 +42,15 @@
                     defaultToolbar: ['filter', 'print', 'exports'],
                     cols: [
                         [
-                        { type: 'checkbox'}
-                        , { field: 'id', title: 'ID' }
-                        , { field: 'name', title: '菜单名称'}
+                        { type: 'numbers'}
+                        , { field: 'id', title: 'ID' ,width:'80'}
+                        , { field: 'name', title: '菜单名称',width: '180'}
 
                     ]
                     ],
-                    style: 'margin-top:0;'
                 });
             }
-        CoreUtil.sendAjax("/shiro/api/home",null,initTreeTable,"GET",true,false,null)
+        CoreUtil.sendAjax("/shiro/perms/permissions",null,initTreeTable,"GET",true,false,null)
 
         // 渲染表格
 

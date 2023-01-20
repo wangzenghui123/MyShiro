@@ -20,4 +20,10 @@ public class PermissionServiceImpl  implements PermissionService {
     public Permission queryPermissionById(String id) {
         return permissionDao.queryPermissionById(id);
     }
+
+    @Override
+    public List<Permission> selectAll() {
+
+        return permissionDao.selectAll();
+    }
 }

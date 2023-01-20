@@ -13,7 +13,6 @@ public enum BaseResponseCode implements ResponseCodeInterface{
     ACCOUNT_LOCK("4010001","账号被锁定，联系管理员"),
     ACCOUNT_HAS_DELETED_ERROR("4010001","账号已被删除，请联系管理员"),
     TOKEN_PAST_DUE("4010002","token失效，请刷新token"),
-
     NOT_PERMISSION("4030001","没有权限访问资源")
     ;
 
