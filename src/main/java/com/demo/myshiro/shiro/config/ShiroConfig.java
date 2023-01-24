@@ -82,7 +82,7 @@ public class ShiroConfig {
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources/**", "anon");
         map.put("/user/**","anon");
-       // map.put("/register.jsp","anon");
+        map.put("/permsr/**","anon");
         map.put("/login.html","anon");
         map.put("/**/*.html","anon");
         map.put("/home.html","anon");

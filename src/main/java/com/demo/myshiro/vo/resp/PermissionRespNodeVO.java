@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,7 +26,7 @@ public class PermissionRespNodeVO {
 
 
     @ApiModelProperty("权限名称")
-    private String name;
+    private String title;
 
 
     @ApiModelProperty("权限标识符")
@@ -37,6 +38,9 @@ public class PermissionRespNodeVO {
 
 
     @ApiModelProperty("子权限")
-    private List<PermissionRespNodeVO> children;
+    private List<PermissionRespNodeVO> children = new ArrayList<>(0);
+
+    @ApiModelProperty("默认展开")
+    private Boolean spread = true;
 
 }

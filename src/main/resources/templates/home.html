@@ -209,7 +209,7 @@
         if(permissionList != null && permissionList.length > 0){
           for (let i = 0; i < permissionList.length; i++) {
             leftMenuHtml = leftMenuHtml + '<li class="layui-nav-item" >';
-            leftMenuHtml = leftMenuHtml + '<a className="" href="javascript:;">' + permissionList[i].name +  '</a>';
+            leftMenuHtml = leftMenuHtml + '<a className="" href="javascript:;">' + permissionList[i].title +  '</a>';
             leftMenuHtml = leftMenuHtml + getChildrenHtml(permissionList[i].children);
             leftMenuHtml = leftMenuHtml + ' </li>'
           }
@@ -225,7 +225,7 @@
     if(children != null && children.length > 0){
       menuHtml = menuHtml + '<dl class="layui-nav-child">';
       for (let i = 0; i < children.length; i++) {
-        menuHtml = menuHtml + '<dd><a data-id="'+children[i].id+'"'+'data-url="'+children[i].url+'"'+'data-name="'+children[i].name+'"'+' href="javascript:;" class="permission-item">' + children[i].name + '</a>';
+        menuHtml = menuHtml + '<dd><a data-id="'+children[i].id+'"'+'data-url="'+children[i].url+'"'+'data-name="'+children[i].title+'"'+' href="javascript:;" class="permission-item">' + children[i].title + '</a>';
         let childrenHtml = getChildrenHtml(children[i].children,menuHtml);
         menuHtml = menuHtml + childrenHtml;
         menuHtml = menuHtml + '</dd>';

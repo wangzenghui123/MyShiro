@@ -67,7 +67,7 @@ public class HomeServiceImpl implements HomeService {
             PermissionRespNodeVO permissionRespNodeVO = new PermissionRespNodeVO();
             permissionRespNodeVO.setId(permission.getId());
             permissionRespNodeVO.setPermission(permission.getPerms());
-            permissionRespNodeVO.setName(permission.getName());
+            permissionRespNodeVO.setTitle(permission.getName());
             permissionRespNodeVO.setUrl(permission.getUrl());
             permissionRespNodeVO.setPid(permission.getPid());
             permissionRespNodeVOList.add(permissionRespNodeVO);
