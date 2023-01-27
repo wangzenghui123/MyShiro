@@ -2,14 +2,21 @@ package com.demo.myshiro.service.impl;
 
 import com.demo.myshiro.dao.PermissionDao;
 import com.demo.myshiro.entity.Permission;
+import com.demo.myshiro.exception.BusinessException;
+import com.demo.myshiro.exception.code.BaseResponseCode;
 import com.demo.myshiro.service.PermissionService;
+import com.demo.myshiro.vo.req.PermissionAddReqVO;
 import com.demo.myshiro.vo.resp.PermissionRespNodeVO;
+import io.swagger.models.auth.In;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -46,6 +53,21 @@ public class PermissionServiceImpl  implements PermissionService {
         return list;
     }
 
+    @Override
+    public int addPermission(PermissionAddReqVO permissionAddReqVO) throws BusinessException {
+        String pid = permissionAddReqVO.getPid();
+        Integer type = permissionAddReqVO.getType();
+        Permission perms = permissionDao.queryPermissionById(pid);
+        validate(type, Integer.valueOf(pid),perms);
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(permissionAddReqVO,permission);
+        permission.setId(UUID.randomUUID().toString());
+        permission.setDeleted(1);
+        permission.setCreateTime(new Date(System.currentTimeMillis()));
+        permission.setUpdateTime(new Date(System.currentTimeMillis()));
+        return permissionDao.addPermission(permission);
+    }
+
     private List<PermissionRespNodeVO> getChildren(Permission permission, List<Permission> list){
         String permissionId = permission.getId();
         List<PermissionRespNodeVO> list1 = new ArrayList<>();
@@ -59,5 +81,41 @@ public class PermissionServiceImpl  implements PermissionService {
             }
         }
         return list1;
+    }
+
+    private void validate(Integer type,Integer pid,Permission parent) throws BusinessException {
+
+        switch (type){
+            case 1:
+                if(parent != null){
+                    if(parent.getType() != 1){
+                        throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                    }
+                }else{
+                    if(pid != 0){
+                        throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                    }
+                }
+                break;
+                case 2:
+                    if(parent != null){
+                        if(parent.getType() != 1){
+                            throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                        }
+                    }else{
+                        throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                    }
+                    break;
+            case 3:
+                if(parent != null){
+                    if(parent.getType() != 2){
+                        throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                    }
+                }else{
+                    throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                }
+                break;
+        }
+        return;
     }
 }

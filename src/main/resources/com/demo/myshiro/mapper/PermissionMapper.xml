@@ -18,6 +18,11 @@
         where deleted = 1
     </select>
 
+    <insert id="addPermission" >
+        insert into sys_permission(<include refid="Base_Column_List"></include>) values
+        (#{id},#{code},#{name},#{perms},#{url},#{method},#{pid},#{orderNum},#{type},#{status},#{createTime},#{updateTime},#{deleted})
+    </insert>
+
     <resultMap id="BaseResultMap" type="com.demo.myshiro.entity.Permission">
         <id column="id"  property="id"/>
         <result column="code"  property="code"/>

@@ -11,4 +11,6 @@ public interface PermissionDao {
     Permission queryPermissionById(String id);
 
     List<Permission> selectAll();
+
+    int addPermission(Permission permission);
 }
