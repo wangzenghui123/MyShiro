@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>menu</title>
     <link rel="stylesheet" href="/shiro/layui/css/layui.css">
     <style>
 
-        .layui-col-md6 {
+        .layui-bg-gray .layui-col-md6 {
             width: 100%;
         }
+
         .layui-bg-gray {
             padding: 10px 5px;
         }
-        .layui-form-label {
+
+        .layui-bg-gray .layui-form-label {
             width: 160px;
             font-weight: 400;
         }
-       .layui-input-block {
+
+        .layui-bg-gray .layui-input-block {
             overflow: hidden;
         }
-        .layui-input {
+
+        .layui-bg-gray .layui-input {
             height: 35px;
             line-height: 1.3;
         }
-        html{
+
+        html {
             overflow-x: hidden;
         }
 
@@ -31,19 +36,44 @@
             background: rgba(255, 255, 255, 0.99);
         }
 
-        body .demo-class .layui-layer-title{background:#009f95; color:#fff; border: none;}
-        body .demo-class .layui-layer-btn{border-top:1px solid #fff}
-        body .demo-class .layui-layer-btn a{background:#009f95;}
-        body .demo-class .layui-layer-btn .layui-layer-btn1{background:#fff;}
+        body .demo-class .layui-layer-title {
+            background: #009f95;
+            color: #fff;
+            border: none;
+        }
 
-        .layui-table-cell {
+        body .demo-class .layui-layer-btn {
+            border-top: 1px solid #fff
+        }
+
+        body .demo-class .layui-layer-btn a {
+            background: #009f95;
+        }
+
+        body .demo-class .layui-layer-btn .layui-layer-btn1 {
+            background: #fff;
+        }
+
+        .editForm form {
+            top: 20px;
+            position: relative;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .editForm .layui-form-item .layui-input-inline {
+            width: 380px;
+            text-align: left;
+        }
+
+        .editForm .layui-form-item .layui-input-inline button {
             text-align: center;
         }
     </style>
 </head>
 
 <body>
-<div id="menuTree" hidden></div>
+
 <div class="layui-bg-gray" hidden>
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md6">
@@ -52,80 +82,89 @@
                 <div class="layui-card-body">
 
 
-                    <form class="layui-form"  id="addForm" action="">
+                    <form class="layui-form" id="addForm" action="">
 
-                            <input  id="itemId" name="id" value="" hidden>
-                            <input id="itemPid" name="pid" value="" hidden>
-                            <input id="status" name="status" value="1" hidden>
+                        <input id="itemId" name="id" value="" hidden>
+                        <input id="itemPid" name="pid" value="" hidden>
+                        <input id="status" name="status" value="1" hidden>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">请选择类型</label>
                             <div class="layui-input-block">
                                 <input type="radio" name="type" lay-filter="menuType" value="1" title="目录" checked="">
                                 <input type="radio" name="type" lay-filter="menuType" value="2" title="菜单">
-                                <input type="radio" name="type" lay-filter="menuType"  value="3" title="权限">
+                                <input type="radio" name="type" lay-filter="menuType" value="3" title="权限">
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单名称</label>
                             <div class="layui-input-block">
-                                <input type="text" name="name" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
+                                <input type="text" name="name" autocomplete="off" placeholder="请输入菜单名称"
+                                       class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">所属菜单</label>
                             <div class="layui-input-block">
-                                <input type="text"   autocomplete="off" placeholder="点击选择所属菜单" class="layui-input" style="background-color: ghostwhite" disabled>
+                                <input type="text" autocomplete="off" placeholder="点击选择所属菜单" class="layui-input"
+                                       style="background-color: ghostwhite" disabled>
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">接口URL</label>
                             <div class="layui-input-block">
-                                <input type="text" name="url" autocomplete="off" placeholder="请输入接口URL" class="layui-input">
+                                <input type="text" name="url" autocomplete="off" placeholder="请输入接口URL"
+                                       class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item" hidden>
                             <label class="layui-form-label">授权标识</label>
                             <div class="layui-input-block">
-                                <input type="text" name="perms" autocomplete="off" placeholder="请输入授权标识，如sys:user:list" class="layui-input">
+                                <input type="text" name="perms" autocomplete="off" placeholder="请输入授权标识，如sys:user:list"
+                                       class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item" hidden>
                             <label class="layui-form-label">请求方式</label>
                             <div class="layui-input-block">
-                                <input type="text" name="method"  autocomplete="off" placeholder="请输入请求方式，如POST,GET" class="layui-input">
+                                <input type="text" name="method" autocomplete="off" placeholder="请输入请求方式，如POST,GET"
+                                       class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item" hidden>
                             <label class="layui-form-label">按钮标识</label>
                             <div class="layui-input-block">
-                                <input type="text" name="code" autocomplete="off" placeholder="请输入前后端分离按钮控制标识，如btn-permission-list" class="layui-input">
+                                <input type="text" name="code" autocomplete="off"
+                                       placeholder="请输入前后端分离按钮控制标识，如btn-permission-list" class="layui-input">
                             </div>
                         </div>
 
-                        <div class="layui-form-item" >
+                        <div class="layui-form-item">
                             <label class="layui-form-label">排序码</label>
                             <div class="layui-input-block">
-                                <input type="text" name="orderNum"  autocomplete="off" placeholder="请输入排序码" class="layui-input">
+                                <input type="text" name="orderNum" autocomplete="off" placeholder="请输入排序码"
+                                       class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">状态</label>
                             <div class="layui-input-block">
-                                <input type="checkbox" checked=""  lay-skin="switch" lay-filter="switchStatus" lay-text="ON|OFF">
+                                <input type="checkbox" checked="" lay-skin="switch" lay-filter="switchStatus"
+                                       lay-text="ON|OFF">
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="permTable">立即提交</button>
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="permTable">立即提交
+                                </button>
                                 <button type="reset" class="layui-btn layui-btn-primary">返回</button>
                             </div>
                         </div>
@@ -138,17 +177,101 @@
 </div>
 
 
-
 <div class="menu-table">
-            <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
-            <script type="text/html" id="menuToolbar">
-                <div class="layui-btn-container">
-                    <button id="addPermission" class="layui-btn layui-btn-sm" lay-event="addPermission">新增权限</button>
+    <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
+    <script type="text/html" id="menuToolbar">
+        <div class="layui-btn-container">
+            <button id="addPermission" class="layui-btn layui-btn-sm" lay-event="addPermission">新增权限</button>
+        </div>
+    </script>
+</div>
+
+<div id="editForm" class="editForm" hidden>
+
+    <form class="layui-form" action="">
+        <input name="id" value="" hidden>
+        <input name="pid" value="" hidden>
+        <input name="status" value="1" hidden>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">菜单名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" autocomplete="off" placeholder="请输入菜单名称"
+                           class="layui-input">
                 </div>
-            </script>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">接口URL</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" autocomplete="off" placeholder="请输入接口URL"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">授权标识</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="perms" autocomplete="off" placeholder="请输入授权标识，如sys:user:list"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">请求方式</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="method" autocomplete="off" placeholder="请输入请求方式，如POST,GET"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">按钮标识</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="code" autocomplete="off"
+                           placeholder="请输入前后端分离按钮控制标识，如btn-permission-list" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">排序码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="orderNum" autocomplete="off" placeholder="请输入排序码"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="type" autocomplete="off" placeholder="请输入排序码"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" checked="" lay-skin="switch" lay-filter="switchStatus"
+                           lay-text="ON|OFF">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="editTable">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">返回</button>
+        </div>
+
+    </form>
 </div>
 
 </body>
+<div id="menuTree" hidden></div>
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
 <script type="text/html" id="typeTemp">
@@ -162,35 +285,39 @@
 </script>
 <script type="text/html" id="statusTemp">
     {{#  if(d.status == 1){}}
-            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+    <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
     {{#  } else {}}
-            <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
     {{#  } }}
+</script>
+<script type="text/html" id="optTemp">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script>
 
     layui.config({
-        base:"/shiro/"
+        base: "/shiro/"
     }).extend({
-        treetable:"/treetable-lay/treetable"
+        treetable: "/treetable-lay/treetable"
     })
-        .use(['treetable','tree','table','jquery','form','element','layer'],function () {
-        var treetable = layui.treetable;
-        var tree = layui.tree;
-        var table = layui.table;
-        var $ = layui.jquery;
-        var form = layui.form;
-        var element = layui.element;
-        var layer = layui.layer;
-        var selectNode = null;
+        .use(['treetable', 'tree', 'table', 'jquery', 'form', 'element', 'layer'], function () {
+            var treetable = layui.treetable;
+            var tree = layui.tree;
+            var table = layui.table;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var element = layui.element;
+            var layer = layui.layer;
+            var selectNode = null;
 
-        var initTreeTable = function (data){
+            var initTreeTable = function (data) {
                 treetable.render({
-                    data:data.data,
+                    data: data.data,
                     elem: '#menuTable',
                     toolbar: '#menuToolbar',
-                    page:false,
+                    page: false,
                     treeColIndex: 1,//层级关系展示在第几列
                     treeSpid: 0,//是否有最高父id没有-1表示
                     treeIdName: 'id',//每条数据id 字段
@@ -201,115 +328,141 @@
                     even: true,
                     cols: [
                         [
-                        { type: 'numbers'}
-                        , { field: 'name', title: '菜单名称',width: '180'}
-                        , { field: 'perms', title: '权限标识符',width: '180'}
-                        , { field: 'url', title: '资源地址',width: '180'}
-                        , { field: 'pid', title: '父级id',width: '180'}
-                        , { field: 'method', title: '请求类型',width: '100'}
-                        , { field: 'type', title: '资源类型',width: '100',templet: '#typeTemp'}
-                        , { field: 'status', title: '状态',width: '100',templet: '#statusTemp'}
-                        , { field: 'createTime', title: '创建时间',width: '180'}
-                        , { field: 'updateTime', title: '修改时间',width: '180'}
-                        , { field: 'deleted', title: '是否删除',width: '100'}
-
-                    ]
+                            {type: 'numbers'}
+                            , {field: 'name', title: '菜单名称', width: '180', align: 'center'}
+                            , {field: 'perms', title: '权限标识符', width: '180', align: 'center'}
+                            , {field: 'url', title: '资源地址', width: '150', align: 'center'}
+                            , {field: 'pid', title: '父级id', width: '100', align: 'center'}
+                            , {field: 'method', title: '请求类型', width: '100', align: 'center'}
+                            , {field: 'type', title: '资源类型', width: '100', align: 'center', templet: '#typeTemp'}
+                            , {field: 'status', title: '状态', width: '100', align: 'center', templet: '#statusTemp'}
+                            , {field: 'createTime', title: '创建时间', width: '180', align: 'center'}
+                            , {field: 'updateTime', title: '修改时间', width: '180', align: 'center'}
+                            , {field: 'deleted', title: '是否删除', width: '100', align: 'center'}
+                            , {title: '操作', width: '130', align: 'center', templet: '#optTemp'}
+                        ]
                     ],
 
                 });
             };
 
-        var initMenuTree = function (data) {
+            var initMenuTree = function (data) {
                 tree.render({
                     elem: '#menuTree'
-                    ,data: data.data
-                    ,onlyIconControl: true
-                    ,click: function (obj) {
+                    , data: data.data
+                    , onlyIconControl: true
+                    , click: function (obj) {
                         selectNode = obj.data
-                        top.layer.msg("您选择了"+obj.data.title)
+                        top.layer.msg("您选择了" + obj.data.title)
                     }
                 });
 
             };
 
-        CoreUtil.sendAjax("/shiro/perms/permissionTree",null,initMenuTree,"GET",true,false,null);
 
-        CoreUtil.sendAjax("/shiro/perms/permissions",null,initTreeTable,"GET",true,false,null);
+            CoreUtil.sendAjax("/shiro/perms/permissions", null, initTreeTable, "GET", true, false, null);
+            CoreUtil.sendAjax("/shiro/perms/permissionTree", null, initMenuTree, "GET", true, false, null);
+            $(".layui-btn-container").on("click", function () {
+                $(".menu-table:first").hide();
+                $(".layui-bg-gray:first").show();
+            });
 
-        $(".layui-btn-container").on("click",function () {
-            $(".menu-table:first").hide();
-            $(".layui-bg-gray:first").show();
-         });
-
-        $(":reset:first").on("click",function () {
-            $("#addForm")[0].reset();
-            $(".layui-bg-gray:first").hide();
-            $(".menu-table:first").show();
-            return false;
-        });
-
-        form.on("radio(menuType)",function (data) {
-            if(data.value == 2){
-                $("form .layui-form-item:eq(5)").show();
-                $("form .layui-form-item:eq(6)").show();
-                $("form .layui-form-item:eq(4)").show();
-            }else {
-                $("form .layui-form-item:eq(5)").hide();
-                $("form .layui-form-item:eq(6)").hide();
-                $("form .layui-form-item:eq(4)").hide();
-            }
-        });
-
-
-        form.on('submit(permTable)', function(data){
-
-            CoreUtil.sendAjax("/shiro/perms/addPermission",JSON.stringify(data.field),function (data){
-                top.layer.msg(data.msg)
+            $(":reset:first").on("click", function () {
+                $("#addForm")[0].reset();
                 $(".layui-bg-gray:first").hide();
                 $(".menu-table:first").show();
-                treetable.render();
-            },"POST",true,false,null)
-            return false;
-        });
-
-        $("div [lay-skin='_switch']:first").on("click",function (){
-            if($("div [lay-skin='_switch']:first").attr("class") == "layui-unselect layui-form-switch"){
-                $("#status").val(2)
-            }else{
-                    $("#status").val(1)
-            }
-        })
-
-        $("form .layui-form-item:eq(2)").on("click",function () {
-            layer.open({
-                type: 1,
-                title:'选择菜单',
-                skin: 'demo-class',
-                offset: '100px',
-                area:['600px','350px'],
-                btn:['确认','取消'],
-                closeBtn:0,
-                content: $("#menuTree"),
-                yes: function(index, layero){
-                    if(selectNode == null){
-                        top.layer.msg("您没有选择菜单，请点击选择!")
-                    }else{
-                        $("form .layui-input:eq(1)").attr("placeholder",selectNode.title);
-                        $("#itemPid").val(selectNode.id)
-                        layer.close(index)
-                    }
-                },
-                btn2: function(index, layero){
-                    selectNode = null;
-                    layer.close(index);
-            }
+                return false;
             });
-        });
+
+            form.on("radio(menuType)", function (data) {
+                if (data.value == 2) {
+                    $("form .layui-form-item:eq(5)").show();
+                    $("form .layui-form-item:eq(6)").show();
+                    $("form .layui-form-item:eq(4)").show();
+                } else {
+                    $("form .layui-form-item:eq(5)").hide();
+                    $("form .layui-form-item:eq(6)").hide();
+                    $("form .layui-form-item:eq(4)").hide();
+                }
+            });
 
 
+            form.on('submit(permTable)', function (data) {
+
+                CoreUtil.sendAjax("/shiro/perms/addPermission", JSON.stringify(data.field), function (data) {
+                    top.layer.msg(data.msg)
+                    $(".layui-bg-gray:first").hide();
+                    $(".menu-table:first").show();
+                    treetable.render();
+                }, "POST", true, false, null)
+                return false;
+            });
+
+            $(".layui-bg-gray [lay-skin='_switch']:first").on("click", function () {
+                if ($("div [lay-skin='_switch']:first").attr("class") == "layui-unselect layui-form-switch") {
+                    $("#status").val(2)
+                } else {
+                    $("#status").val(1)
+                }
+            })
+
+            $("form .layui-form-item:eq(2)").on("click", function () {
+                layer.open({
+                    type: 1,
+                    title: '选择菜单',
+                    skin: 'demo-class',
+                    offset: '100px',
+                    area: ['600px', '350px'],
+                    btn: ['确认', '取消'],
+                    closeBtn: 0,
+                    content: $("#menuTree"),
+                    yes: function (index, layero) {
+                        if (selectNode == null) {
+                            top.layer.msg("您没有选择菜单，请点击选择!")
+                        } else {
+                            $("form .layui-input:eq(1)").attr("placeholder", selectNode.title);
+                            $("#itemPid").val(selectNode.id)
+                            layer.close(index)
+                        }
+                    },
+                    btn2: function (index, layero) {
+                        selectNode = null;
+                        layer.close(index);
+                    }
+                });
+            });
+
+            //触发单元格工具事件
+            var editFormLayer = null;
+            table.on('tool(menuTable)', function (obj) {
+                var data = obj.data;
+                console.log(obj)
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    editFormLayer = layer.open({
+                        type: 1,
+                        title: '编辑',
+                        skin: 'demo-class',
+                        offset: '50px',
+                        area: ['65%', '65%'],
+                        closeBtn: 1,
+                        content: $("#editForm")
+                    });
+
+                }
+            });
+            form.on('submit(editTable)', function (data) {
+                CoreUtil.sendAjax("/shiro/perms/updatePermission", JSON.stringify(data.field), function (data) {
+                    top.layer.msg(data.msg)
+                }, "POST", true, false, null)
+                return false;
+            });
 
 
-
-    })
+        })
 </script>
 </html>
