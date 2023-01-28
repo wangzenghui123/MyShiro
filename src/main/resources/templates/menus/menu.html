@@ -186,7 +186,7 @@
     </script>
 </div>
 
-<div id="editForm" class="editForm" hidden>
+<div id="editForm" class="editForm" lay-filter="editFormFilter" hidden>
 
     <form class="layui-form" action="">
         <input name="id" value="" hidden>
@@ -198,14 +198,14 @@
             <div class="layui-inline">
                 <label class="layui-form-label">菜单名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="name" autocomplete="off" placeholder="请输入菜单名称"
+                    <input type="text" name="name" value="" autocomplete="off" placeholder="请输入菜单名称"
                            class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">接口URL</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="url" autocomplete="off" placeholder="请输入接口URL"
+                    <input type="text" name="url" value="" autocomplete="off" placeholder="请输入接口URL"
                            class="layui-input">
                 </div>
             </div>
@@ -215,14 +215,14 @@
             <div class="layui-inline">
                 <label class="layui-form-label">授权标识</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="perms" autocomplete="off" placeholder="请输入授权标识，如sys:user:list"
+                    <input type="text" name="perms" value="" autocomplete="off" placeholder="请输入授权标识，如sys:user:list"
                            class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">请求方式</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="method" autocomplete="off" placeholder="请输入请求方式，如POST,GET"
+                    <input type="text" name="method" value="" autocomplete="off" placeholder="请输入请求方式，如POST,GET"
                            class="layui-input">
                 </div>
             </div>
@@ -232,14 +232,14 @@
             <div class="layui-inline">
                 <label class="layui-form-label">按钮标识</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="code" autocomplete="off"
+                    <input type="text" name="code" value="" autocomplete="off"
                            placeholder="请输入前后端分离按钮控制标识，如btn-permission-list" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">排序码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="orderNum" autocomplete="off" placeholder="请输入排序码"
+                    <input type="text" name="orderNum" value="" autocomplete="off" placeholder="请输入排序码"
                            class="layui-input">
                 </div>
             </div>
@@ -249,7 +249,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="type" autocomplete="off" placeholder="请输入排序码"
+                    <input type="text" name="type" value="" autocomplete="off" placeholder="请输入排序码"
                            class="layui-input">
                 </div>
             </div>
@@ -312,6 +312,7 @@
             var layer = layui.layer;
             var selectNode = null;
 
+
             var initTreeTable = function (data) {
                 treetable.render({
                     data: data.data,
@@ -367,7 +368,7 @@
                 $(".layui-bg-gray:first").show();
             });
 
-            $(":reset:first").on("click", function () {
+            $("#addForm :reset:first").on("click", function () {
                 $("#addForm")[0].reset();
                 $(".layui-bg-gray:first").hide();
                 $(".menu-table:first").show();
@@ -385,7 +386,6 @@
                     $("form .layui-form-item:eq(4)").hide();
                 }
             });
-
 
             form.on('submit(permTable)', function (data) {
 
@@ -406,7 +406,7 @@
                 }
             })
 
-            $("form .layui-form-item:eq(2)").on("click", function () {
+            $("#addForm .layui-form-item:eq(2)").on("click", function () {
                 layer.open({
                     type: 1,
                     title: '选择菜单',
@@ -436,19 +436,30 @@
             var editFormLayer = null;
             table.on('tool(menuTable)', function (obj) {
                 var data = obj.data;
-                console.log(obj)
+                console.log(data)
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         layer.close(index);
                     });
                 } else if (obj.event === 'edit') {
+
+                    $("#editForm [name='id']").val(data.id)
+                    $("#editForm [name='pid']").val(data.pid)
+                    $("#editForm [name='status']").val(data.status)
+                    $("#editForm [name='name']").val(data.name)
+                    $("#editForm [name='url']").val(data.url)
+                    $("#editForm [name='perms']").val(data.perms)
+                    $("#editForm [name='method']").val(data.method)
+                    $("#editForm [name='code']").val(data.code)
+                    $("#editForm [name='orderNum']").val(data.orderNum)
+                    $("#editForm [name='type']").val(data.type)
                     editFormLayer = layer.open({
                         type: 1,
                         title: '编辑',
                         skin: 'demo-class',
                         offset: '50px',
-                        area: ['65%', '65%'],
+                        area: ['70%', '70%'],
                         closeBtn: 1,
                         content: $("#editForm")
                     });
@@ -457,7 +468,22 @@
             });
             form.on('submit(editTable)', function (data) {
                 CoreUtil.sendAjax("/shiro/perms/updatePermission", JSON.stringify(data.field), function (data) {
-                    top.layer.msg(data.msg)
+                    layer.close(editFormLayer);
+                    form.val("editFormFilter", {
+                        "id":""
+                        ,"pid":""
+                        ,"status":"1"
+                        ,"name":""
+                        ,"url":""
+                        ,"perms":""
+                        ,"method":""
+                        ,"code":""
+                        ,"orderNum":""
+                        ,"type":""
+                    });
+                    form.render();
+                    table.reload();
+                    top.layer.msg(data.msg);
                 }, "POST", true, false, null)
                 return false;
             });

@@ -39,5 +39,10 @@
         where su.id = #{id} and su.deleted = 1
     </select>
 
+    <select id="queryUserByRoleId" resultType="com.demo.myshiro.entity.SysUser" parameterType="java.lang.String">
+        select su.*
+        from sys_user su left join sys_user_role sur on su.id = sur.user_id
+        where sur.id = #{id} and su.deleted = 1
+    </select>
 
 </mapper>

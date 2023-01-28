@@ -17,4 +17,6 @@ public interface SysUserDao {
 
     List<SysUser> selectAll(UserPageReqVO userPageReqVO);
     ArrayList<String> queryRoleIdByUserId(String userId);
+
+    List<SysUser> queryUserByRoleId(String roleId);
 }

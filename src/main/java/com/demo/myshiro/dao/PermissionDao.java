@@ -13,4 +13,8 @@ public interface PermissionDao {
     List<Permission> selectAll();
 
     int addPermission(Permission permission);
+
+    List<Permission> getChildren(String id);
+
+    int updatePermission(Permission permission);
 }

@@ -13,4 +13,6 @@ public interface RoleDao {
 
     ArrayList<String> queryPermissionIdByRoleId(String roleId);
 
+    List<Role> queryRolesByPermissionId(String id);
+
 }

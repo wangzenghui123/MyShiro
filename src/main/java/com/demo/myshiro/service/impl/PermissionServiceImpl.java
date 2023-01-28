@@ -1,22 +1,32 @@
 package com.demo.myshiro.service.impl;
 
+import com.demo.myshiro.constant.Constant;
 import com.demo.myshiro.dao.PermissionDao;
+import com.demo.myshiro.dao.RoleDao;
+import com.demo.myshiro.dao.SysUserDao;
 import com.demo.myshiro.entity.Permission;
+import com.demo.myshiro.entity.Role;
+import com.demo.myshiro.entity.SysUser;
 import com.demo.myshiro.exception.BusinessException;
 import com.demo.myshiro.exception.code.BaseResponseCode;
 import com.demo.myshiro.service.PermissionService;
+import com.demo.myshiro.service.RedisService;
+import com.demo.myshiro.util.JwtTokenUtil;
 import com.demo.myshiro.vo.req.PermissionAddReqVO;
+import com.demo.myshiro.vo.req.PermissionUpdateReqVO;
 import com.demo.myshiro.vo.resp.PermissionRespNodeVO;
 import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -24,6 +34,15 @@ public class PermissionServiceImpl  implements PermissionService {
 
     @Autowired
     private PermissionDao permissionDao;
+
+    @Autowired
+    private RedisService redisService;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private SysUserDao userDao;
 
     @Override
     public Permission queryPermissionById(String id) {
@@ -66,6 +85,50 @@ public class PermissionServiceImpl  implements PermissionService {
         permission.setCreateTime(new Date(System.currentTimeMillis()));
         permission.setUpdateTime(new Date(System.currentTimeMillis()));
         return permissionDao.addPermission(permission);
+    }
+
+    @Override
+    public int updatePermission(PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException {
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(permissionUpdateReqVO,permission);
+
+        Permission parent = permissionDao.queryPermissionById(permission.getPid());
+        validate(permissionUpdateReqVO.getType(), Integer.valueOf(permissionUpdateReqVO.getPid()),parent);
+
+        if(StringUtils.isEmpty(permissionUpdateReqVO.getId())){
+            throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+        }
+        Permission permission1 = permissionDao.queryPermissionById(permissionUpdateReqVO.getId());
+        if((parent != null) && (!permissionUpdateReqVO.getPid().equals(permission1.getPid()))){
+            List<Permission> children = permissionDao.getChildren(permissionUpdateReqVO.getId());
+            if(children != null && children.size() > 0){
+                throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+            }
+        }
+        permission.setUpdateTime(new Date(System.currentTimeMillis()));
+        int i = permissionDao.updatePermission(permission);
+
+        List<Role> roleList = roleDao.queryRolesByPermissionId(permission.getId());
+        List<SysUser> userList = new ArrayList<>();
+        for (Role role : roleList) {
+            userList.addAll(userDao.queryUserByRoleId(role.getId()));
+        }
+
+        for (SysUser sysUser : userList) {
+            System.out.println(sysUser.toString());
+        }
+        if(userList != null && userList.size() > 0){
+            for (SysUser sysUser : userList) {
+                String id = sysUser.getId();
+                redisService.put(Constant.JWT_REFRESH_KEY+id,id, JwtTokenUtil.refreshTokenExpireTime.toMillis(), TimeUnit.MILLISECONDS);
+                if(redisService.hasKey(Constant.IDENTITY_CACHE_KEY+id) ){
+                    redisService.delete(Constant.IDENTITY_CACHE_KEY+id);
+                }
+            }
+        }
+
+        return i;
+
     }
 
     private List<PermissionRespNodeVO> getChildren(Permission permission, List<Permission> list){

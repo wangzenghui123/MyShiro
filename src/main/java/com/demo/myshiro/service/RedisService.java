@@ -3,9 +3,11 @@ package com.demo.myshiro.service;
 import io.lettuce.core.dynamic.domain.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.KeyBoundCursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,5 +32,13 @@ public class RedisService {
     public String get(String key){
         String  value = (String) redisTemplate.opsForValue().get(key);
         return value;
+    }
+
+    public boolean delete(String key){
+        if(!StringUtils.isEmpty(key)){
+            return redisTemplate.delete(key);
+        }
+        return false;
+
     }
 }

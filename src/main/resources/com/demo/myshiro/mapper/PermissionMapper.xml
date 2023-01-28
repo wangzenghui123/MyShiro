@@ -18,6 +18,18 @@
         where deleted = 1
     </select>
 
+    <update id="updatePermission" parameterType="com.demo.myshiro.entity.Permission" >
+        update sys_permission set code = #{code},name = #{name},perms = #{perms},url = #{url},method = #{method},
+        pid = #{pid},order_num = #{orderNum},type = #{type},status = #{status},create_time = #{createTime},update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <select id="getChildren" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/>
+        from sys_permission
+        where deleted = 1 and pid = #{id}
+    </select>
+
     <insert id="addPermission" >
         insert into sys_permission(<include refid="Base_Column_List"></include>) values
         (#{id},#{code},#{name},#{perms},#{url},#{method},#{pid},#{orderNum},#{type},#{status},#{createTime},#{updateTime},#{deleted})

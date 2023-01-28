@@ -6,6 +6,7 @@ import com.demo.myshiro.exception.BusinessException;
 import com.demo.myshiro.service.PermissionService;
 import com.demo.myshiro.util.DataResult;
 import com.demo.myshiro.vo.req.PermissionAddReqVO;
+import com.demo.myshiro.vo.req.PermissionUpdateReqVO;
 import com.demo.myshiro.vo.resp.PermissionRespNodeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,16 @@ public class PermissionController {
         DataResult dataResult = DataResult.success();
         int i = permissionService.addPermission(permissionAddReqVO);
         dataResult.setData(i);
+        return dataResult;
+    }
+
+    @RequestMapping("/updatePermission")
+    @ApiOperation(value = "修改权限")
+    @ResponseBody
+    public DataResult updatePermission(@RequestBody PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException{
+        System.out.println(permissionUpdateReqVO);
+        DataResult dataResult = DataResult.success();
+        permissionService.updatePermission(permissionUpdateReqVO);
         return dataResult;
     }
 }
