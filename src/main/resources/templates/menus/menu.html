@@ -186,12 +186,12 @@
     </script>
 </div>
 
-<div id="editForm" class="editForm" lay-filter="editFormFilter" hidden>
+<div id="editForm" class="editForm" lay-filter="editFormFilter" class="layui-form" hidden>
 
     <form class="layui-form" action="">
         <input name="id" value="" hidden>
         <input name="pid" value="" hidden>
-        <input name="status" value="1" hidden>
+        <input name="status" value="" hidden>
 
 
         <div class="layui-form-item">
@@ -256,7 +256,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">状态</label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked="" lay-skin="switch" lay-filter="switchStatus"
+                    <input type="checkbox" checked="" id="checkStatus" lay-skin="switch" lay-filter="switchStatus"
                            lay-text="ON|OFF">
                 </div>
             </div>
@@ -357,7 +357,6 @@
                         top.layer.msg("您选择了" + obj.data.title)
                     }
                 });
-
             };
 
 
@@ -387,6 +386,7 @@
                 }
             });
 
+
             form.on('submit(permTable)', function (data) {
 
                 CoreUtil.sendAjax("/shiro/perms/addPermission", JSON.stringify(data.field), function (data) {
@@ -400,7 +400,7 @@
 
             $(".layui-bg-gray [lay-skin='_switch']:first").on("click", function () {
                 if ($("div [lay-skin='_switch']:first").attr("class") == "layui-unselect layui-form-switch") {
-                    $("#status").val(2)
+                    $("#status").val(0)
                 } else {
                     $("#status").val(1)
                 }
@@ -437,13 +437,13 @@
             table.on('tool(menuTable)', function (obj) {
                 var data = obj.data;
                 console.log(data)
+
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         layer.close(index);
                     });
                 } else if (obj.event === 'edit') {
-
                     $("#editForm [name='id']").val(data.id)
                     $("#editForm [name='pid']").val(data.pid)
                     $("#editForm [name='status']").val(data.status)
@@ -454,6 +454,14 @@
                     $("#editForm [name='code']").val(data.code)
                     $("#editForm [name='orderNum']").val(data.orderNum)
                     $("#editForm [name='type']").val(data.type)
+                    if (data.status == 1) {
+                        $("#checkStatus").attr("checked", 'checked')
+                        $("#editForm div [lay-skin='_switch']").attr("class", " layui-unselect layui-form-switch");
+                    } else {
+                        $("#checkStatus").removeAttr("checked")
+                        $("#editForm div [lay-skin='_switch']").attr("class", " layui-unselect layui-form-switch layui-form-onswitch");
+                    }
+                    form.render()
                     editFormLayer = layer.open({
                         type: 1,
                         title: '编辑',
@@ -462,27 +470,34 @@
                         area: ['70%', '70%'],
                         closeBtn: 1,
                         content: $("#editForm")
+
                     });
 
                 }
             });
+
+            form.on('switch(switchStatus)', function (data) {
+                (data.elem.checked == true) ? $("#editForm [name='status']").val(1) : $("#editForm [name='status']").val(0);
+                form.render()
+            });
+
             form.on('submit(editTable)', function (data) {
                 CoreUtil.sendAjax("/shiro/perms/updatePermission", JSON.stringify(data.field), function (data) {
                     layer.close(editFormLayer);
-                    form.val("editFormFilter", {
-                        "id":""
-                        ,"pid":""
-                        ,"status":"1"
-                        ,"name":""
-                        ,"url":""
-                        ,"perms":""
-                        ,"method":""
-                        ,"code":""
-                        ,"orderNum":""
-                        ,"type":""
-                    });
-                    form.render();
-                    table.reload();
+                    // form.val("editFormFilter", {
+                    //     "id":""
+                    //     ,"pid":""
+                    //     ,"status":"1"
+                    //     ,"name":""
+                    //     ,"url":""
+                    //     ,"perms":""
+                    //     ,"method":""
+                    //     ,"code":""
+                    //     ,"orderNum":""
+                    //     ,"type":""
+                    // });
+                    // form.render();
+                    treetable.render();
                     top.layer.msg(data.msg);
                 }, "POST", true, false, null)
                 return false;
