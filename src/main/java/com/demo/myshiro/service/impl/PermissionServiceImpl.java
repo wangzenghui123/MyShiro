@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -50,9 +51,31 @@ public class PermissionServiceImpl  implements PermissionService {
     }
 
     @Override
-    public List<Permission> selectAll() {
+    public int deletePermission(PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException {
+        String id = permissionUpdateReqVO.getId();
+        if (StringUtils.isEmptyOrWhitespace(id)){
+            throw new BusinessException(BaseResponseCode.DATA_ERROR);
+        }
+        Permission permission = permissionDao.queryPermissionById(id);
+        if(permission == null){
+            throw new BusinessException(BaseResponseCode.DATA_ERROR);
+        }
+        List<Permission> children = permissionDao.getChildren(permission.getId());
+        if(children!= null && children.size() > 0){
+            throw new BusinessException(BaseResponseCode.HAVE_CHILDREN);
+        }
+        return permissionDao.deletePermission(permission.getId());
 
-        return permissionDao.selectAll();
+    }
+
+    @Override
+    public List<Permission> selectAll() {
+        List<Permission> permissions = permissionDao.selectAll();
+        for (Permission permission : permissions) {
+            Permission parPerm = permissionDao.queryPermissionById(permission.getPid());
+            permission.setPName(parPerm == null ? "默认顶级菜单“": parPerm.getName());
+        }
+        return permissions;
     }
 
     @Override
@@ -66,6 +89,7 @@ public class PermissionServiceImpl  implements PermissionService {
                 permissionRespNodeVO.setChildren(children);
                 permissionRespNodeVO.setTitle(permission.getName());
                 permissionRespNodeVO.setId(permission.getId());
+                permissionRespNodeVO.setPName("默认顶级菜单");
                 list.add(permissionRespNodeVO);
             }
         }
@@ -82,8 +106,8 @@ public class PermissionServiceImpl  implements PermissionService {
         BeanUtils.copyProperties(permissionAddReqVO,permission);
         permission.setId(UUID.randomUUID().toString());
         permission.setDeleted(1);
-        permission.setCreateTime(new Date(System.currentTimeMillis()));
-        permission.setUpdateTime(new Date(System.currentTimeMillis()));
+        permission.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        permission.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return permissionDao.addPermission(permission);
     }
 
@@ -105,7 +129,7 @@ public class PermissionServiceImpl  implements PermissionService {
                 throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
             }
         }
-        permission.setUpdateTime(new Date(System.currentTimeMillis()));
+        permission.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         int i = permissionDao.updatePermission(permission);
 
         List<Role> roleList = roleDao.queryRolesByPermissionId(permission.getId());
@@ -139,6 +163,7 @@ public class PermissionServiceImpl  implements PermissionService {
                 PermissionRespNodeVO permissionRespNodeVO = new PermissionRespNodeVO();
                 permissionRespNodeVO.setId(list.get(i).getId());
                 permissionRespNodeVO.setTitle(list.get(i).getName());
+                permissionRespNodeVO.setPName(permissionDao.queryPermissionById(list.get(i).getPid()).getName());
                 permissionRespNodeVO.setChildren(getChildren(list.get(i),list));
                 list1.add(permissionRespNodeVO);
             }

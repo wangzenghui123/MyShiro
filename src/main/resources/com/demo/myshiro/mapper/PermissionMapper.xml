@@ -9,13 +9,13 @@
     <select id="queryPermissionById" resultMap="BaseResultMap" parameterType="java.lang.String">
         select <include refid="Base_Column_List"/>
         from sys_permission
-        where id = #{id} and deleted = 1
+        where id = #{id}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
         select <include refid="Base_Column_List"/>
         from sys_permission
-        where deleted = 1
+
     </select>
 
     <update id="updatePermission" parameterType="com.demo.myshiro.entity.Permission" >
@@ -24,10 +24,15 @@
         where id = #{id}
     </update>
 
+    <update id="deletePermission" parameterType="java.lang.String" >
+        update sys_permission set deleted = 0
+        where id = #{id}
+    </update>
+
     <select id="getChildren" resultMap="BaseResultMap" parameterType="java.lang.String">
         select <include refid="Base_Column_List"/>
         from sys_permission
-        where deleted = 1 and pid = #{id}
+        where   pid = #{id}
     </select>
 
     <insert id="addPermission" >

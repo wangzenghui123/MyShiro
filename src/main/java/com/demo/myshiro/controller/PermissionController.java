@@ -8,15 +8,14 @@ import com.demo.myshiro.util.DataResult;
 import com.demo.myshiro.vo.req.PermissionAddReqVO;
 import com.demo.myshiro.vo.req.PermissionUpdateReqVO;
 import com.demo.myshiro.vo.resp.PermissionRespNodeVO;
+import io.lettuce.core.ScriptOutputType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ public class PermissionController {
     @RequestMapping("/permissions")
     @ApiOperation(value = "获取所有权限信息")
     @ResponseBody
-   // @RequiresPermissions("111")
     public DataResult<List<Permission>> permissions(){
         DataResult dataResult = DataResult.success();
         dataResult.setData(permissionService.selectAll());
@@ -65,6 +63,14 @@ public class PermissionController {
         int i = permissionService.addPermission(permissionAddReqVO);
         dataResult.setData(i);
         return dataResult;
+    }
+
+    @RequestMapping(value = "deletePermission",method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除权限")
+    @ResponseBody
+    public DataResult deletePermission(@RequestBody PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException {
+        permissionService.deletePermission(permissionUpdateReqVO);
+        return DataResult.success();
     }
 
     @RequestMapping("/updatePermission")

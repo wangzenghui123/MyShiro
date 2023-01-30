@@ -24,6 +24,8 @@ public class PermissionRespNodeVO {
     @ApiModelProperty("权限父级id")
     private String pid;
 
+    @ApiModelProperty("权限父级名称")
+    private String pName;
 
     @ApiModelProperty("权限名称")
     private String title;

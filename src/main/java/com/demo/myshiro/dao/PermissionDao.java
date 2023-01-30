@@ -17,4 +17,6 @@ public interface PermissionDao {
     List<Permission> getChildren(String id);
 
     int updatePermission(Permission permission);
+
+    int deletePermission(String id);
 }

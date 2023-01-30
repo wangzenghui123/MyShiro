@@ -20,6 +20,6 @@ public interface PermissionService {
 
     int updatePermission(PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException;
 
-
+    int deletePermission(PermissionUpdateReqVO permissionUpdateReqVO) throws BusinessException;
 
 }

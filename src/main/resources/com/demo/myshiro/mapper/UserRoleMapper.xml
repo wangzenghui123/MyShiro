@@ -15,7 +15,6 @@
         where user_id = #{userId}
     </select>
 
-
     <resultMap id="BaseResultMap" type="com.demo.myshiro.entity.UserRole">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>

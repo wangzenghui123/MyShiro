@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -25,15 +26,17 @@ public class Permission {
 
     private String pid;
 
+    private String pName;
+
     private int orderNum;
 
     private int type;
 
     private int status;
 
-    private Date createTime;
+    private Timestamp createTime;
 
-    private Date updateTime;
+    private Timestamp updateTime;
 
     private int deleted;
 
