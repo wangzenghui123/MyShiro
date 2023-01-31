@@ -226,8 +226,8 @@
       menuHtml = menuHtml + '<dl class="layui-nav-child">';
       for (let i = 0; i < children.length; i++) {
         menuHtml = menuHtml + '<dd><a data-id="'+children[i].id+'"'+'data-url="'+children[i].url+'"'+'data-name="'+children[i].title+'"'+' href="javascript:;" class="permission-item">' + children[i].title + '</a>';
-        let childrenHtml = getChildrenHtml(children[i].children,menuHtml);
-        menuHtml = menuHtml + childrenHtml;
+        //let childrenHtml = getChildrenHtml(children[i].children,menuHtml);
+       // menuHtml = menuHtml + childrenHtml;
         menuHtml = menuHtml + '</dd>';
       }
       menuHtml = menuHtml + '</dl>'

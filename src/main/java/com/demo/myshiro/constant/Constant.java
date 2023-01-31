@@ -1,5 +1,7 @@
 package com.demo.myshiro.constant;
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.http.HttpUtil;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 
 public class Constant {
