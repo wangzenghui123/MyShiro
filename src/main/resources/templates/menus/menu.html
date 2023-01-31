@@ -301,9 +301,9 @@
 </script>
 <script type="text/html" id="statusTemp">
     {{#  if(d.status == 1){}}
-    <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+    <input type="checkbox" checked=""  lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF" disabled>
     {{#  } else {}}
-    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+    <input type="checkbox"  lay-skin="switch" lay-text="ON|OFF">
     {{#  } }}
 </script>
 
@@ -486,9 +486,11 @@
                     }
                 });
             }
+
             $("#addForm .layui-form-item:eq(2)").on("click", function () {
                 chooseMenu("form .layui-input:eq(1)","#itemPid")
             });
+
             $("#editForm .layui-inline:eq(1)").on("click", function () {
                 chooseMenu("#editForm .layui-inline:eq(1) input","#editForm [name='pid']")
             });

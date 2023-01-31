@@ -172,7 +172,9 @@ public class PermissionServiceImpl  implements PermissionService {
     }
 
     private void validate(Integer type,Integer pid,Permission parent) throws BusinessException {
-
+        System.out.println(type);
+        System.out.println(pid);
+        System.out.println(parent.toString());
         switch (type){
             case 1:
                 if(parent != null){
@@ -185,18 +187,19 @@ public class PermissionServiceImpl  implements PermissionService {
                     }
                 }
                 break;
-                case 2:
-                    if(parent != null){
-                        if(parent.getType() != 1){
-                            throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
-                        }
-                    }else{
-                        throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
-                    }
-                    break;
+
             case 3:
                 if(parent != null){
                     if(parent.getType() != 2){
+                        throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                    }
+                }else{
+                    throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
+                }
+                break;
+            case 2:
+                if(parent != null){
+                    if(parent.getType() != 1){
                         throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
                     }
                 }else{
