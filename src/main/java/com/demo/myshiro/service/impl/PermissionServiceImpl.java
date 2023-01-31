@@ -101,7 +101,7 @@ public class PermissionServiceImpl  implements PermissionService {
         String pid = permissionAddReqVO.getPid();
         Integer type = permissionAddReqVO.getType();
         Permission perms = permissionDao.queryPermissionById(pid);
-        validate(type, Integer.valueOf(pid),perms);
+        validate(type, pid,perms);
         Permission permission = new Permission();
         BeanUtils.copyProperties(permissionAddReqVO,permission);
         permission.setId(UUID.randomUUID().toString());
@@ -117,7 +117,7 @@ public class PermissionServiceImpl  implements PermissionService {
         BeanUtils.copyProperties(permissionUpdateReqVO,permission);
 
         Permission parent = permissionDao.queryPermissionById(permission.getPid());
-        validate(permissionUpdateReqVO.getType(), Integer.valueOf(permissionUpdateReqVO.getPid()),parent);
+        validate(permissionUpdateReqVO.getType(), permissionUpdateReqVO.getPid(),parent);
 
         if(StringUtils.isEmpty(permissionUpdateReqVO.getId())){
             throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
@@ -171,7 +171,7 @@ public class PermissionServiceImpl  implements PermissionService {
         return list1;
     }
 
-    private void validate(Integer type,Integer pid,Permission parent) throws BusinessException {
+    private void validate(Integer type,String pid,Permission parent) throws BusinessException {
         System.out.println(type);
         System.out.println(pid);
         System.out.println(parent.toString());
@@ -182,7 +182,7 @@ public class PermissionServiceImpl  implements PermissionService {
                         throw new BusinessException(BaseResponseCode.SYSTEM_ERROR);
                     }
                 }else{
-                    if(pid != 0){
+                    if(!pid.equals("0")){
                         throw  new BusinessException(BaseResponseCode.SYSTEM_ERROR);
                     }
                 }
