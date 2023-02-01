@@ -69,32 +69,37 @@
         .editForm .layui-form-item .layui-input-inline button {
             text-align: center;
         }
+
     </style>
 </head>
 <body>
-<div>
-    <table id="roleTable" lay-filter="roleTableFilter"></table>
-    <div id="roleLaypage"></div>
+<div class="roletable">
+    <table id="roleTable" class="layui-table" lay-filter="roleTableFilter"></table>
 </div>
-
+<div id="roleLaypage"></div>
 </body>
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
 <script>
-    layui.use(['table','laypage'],function () {
+    layui.use(['table','laypage','element'],function () {
         var table = layui.table;
         var laypage = layui.laypage;
+        var element = layui.element;
         var pageSearchParam = {
             pageNum : 1,
-            pageSize : 10
+            pageSize :20
         }
+        table.render()
         var renderRoleTable = function (data) {
-            if(Array.isArray(data) && data.length > 0){
+            console.log(data.length)
+            console.log(Array.isArray(data))
                 table.render({
                     elem: '#roleTable'
                     ,data: data
                     ,even: true
-                    ,cols: [[ //表头
+                    ,limit: pageSearchParam.pageSize
+                    ,cols: [
+                        [ //表头
                         {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                         ,{field: 'name', title: '用户名', width:80}
                         ,{field: 'description', title: '性别', width:80, sort: true}
@@ -102,50 +107,50 @@
                         ,{field: 'createTime', title: '签名', width: 177}
                         ,{field: 'updateTime', title: '积分', width: 80, sort: true}
                         ,{field: 'deleted', title: '评分', width: 80, sort: true}
-                    ]]
+                    ]
+                    ]
                 });
-            }
+            element.init()
+
         }
 
-        var renderRoleLaypage = function (curPageSize,pageNum,pageSize,totalPages,totalRows) {
+        var renderRoleLaypage = function (totalRows,pageNum) {
+            table.render()
             laypage.render({
                 elem: 'roleLaypage' //注意，这里的 test1 是 ID，不用加 # 号
-                ,layout: ['prev', 'page', 'next','count','limit','refresh','skip']
                 ,count: totalRows
-                ,limit: pageSize
-                ,limits: [10, 20, 30, 40, 50]
+                ,limit: 20
+                ,layout: ['prev', 'page', 'next','count','limit','limits','refresh','skip']
                 ,curr: location.hash.replace('#!fenye=', '') //获取起始页
-                ,hash: pageNum //自定义hash值
-                ,groups: 2
-                ,prev: '上一页'
-                ,next: '下一页'
-                ,first: '首页'
-                ,last: '末页'
+                ,hash: 'fenye' //自定义hash值
+                // ,groups: 2
+                // ,prev: '上一页'
+                // ,next: '下一页'
+                // ,first: '首页'
+                // ,last: '末页'
                 ,jump: function(obj, first){
-                    //obj包含了当前分页的所有参数，比如：
-                    console.log(obj)
-                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    console.log(obj.limit); //得到每页显示的条数
-
-                    //首次不执行
                     if(!first){
-                        //do something
+                        pageSearchParam.pageNum = obj.curr;
+                        pageSearchParam.pageSize = obj.limit;
+                        CoreUtil.sendAjax("/shiro/role/roles",JSON.stringify(pageSearchParam),function (data) {
+                                renderRoleTable(data.data.list);
+                                renderRoleLaypage(data.data.totalRows,pageSearchParam.pageNum)
+                        },"POST",true,true,null)
+
                     }
                 }
 
             })
 
         }
+
         CoreUtil.sendAjax("/shiro/role/roles",JSON.stringify(pageSearchParam),function (data) {
-            if(data.code == "0"){
                 top.layer.msg(data.msg)
                 renderRoleTable(data.data.list);
-                renderRoleLaypage(data.data.curPageSize,data.data.pageNum,data.data.pageSize,data.data.totalPages,data.data.totalRows)
-            }else{
-                top.layer.msg(data.msg)
-            }
-            console.log(data)
-        },"POST",true,false,null)
+                renderRoleLaypage(data.data.totalRows,pageSearchParam.pageNum)
+
+        },"POST",true,true,null)
+
     })
 </script>
 </html>

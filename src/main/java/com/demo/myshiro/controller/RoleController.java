@@ -25,6 +25,7 @@ public class RoleController {
     @ApiOperation(value = "查询角色")
     @ResponseBody
     public DataResult<PageRespVO<Role>> roles(@RequestBody RolePageReqVO rolePageReqVO){
+        System.out.println(rolePageReqVO.toString());
         DataResult dataResult = DataResult.success();
         dataResult.setData(roleService.selectAll(rolePageReqVO));
         System.out.println(dataResult.toString());

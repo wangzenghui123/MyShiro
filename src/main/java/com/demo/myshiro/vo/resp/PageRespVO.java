@@ -31,7 +31,7 @@ public class PageRespVO <T>{
     private Integer curPageSize;
 
     @ApiModelProperty(value = "数据列表")
-    private List<T>list;
+    private List<T> list;
 
 
 }

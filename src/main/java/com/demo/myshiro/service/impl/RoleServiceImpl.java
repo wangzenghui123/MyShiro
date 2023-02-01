@@ -28,8 +28,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageRespVO<Role> selectAll(RolePageReqVO rolePageReqVO) {
-        PageHelper.offsetPage(rolePageReqVO.getPageNum(), rolePageReqVO.getPageSize());
+    public PageRespVO selectAll(RolePageReqVO rolePageReqVO) {
+        PageHelper.startPage(rolePageReqVO.getPageNum(), rolePageReqVO.getPageSize());
         List<Role> roleList = roleDao.selectAll(rolePageReqVO);
         return PageUtil.getPageRespVO(roleList);
     }
