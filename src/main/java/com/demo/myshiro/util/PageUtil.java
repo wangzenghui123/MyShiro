@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PageUtil {
 
-    public static <T> PageRespVO getPageRespVO(List<T> list){
+    public static <T> PageRespVO<T> getPageRespVO(List<T> list){
         PageRespVO<T> pageRespVO = new PageRespVO<>();
         if(list instanceof Page){
             Page page = (Page) list;

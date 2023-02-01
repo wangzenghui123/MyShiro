@@ -254,7 +254,12 @@
     var fitFrame = function () {
       let bodyElementHeight= document.getElementsByClassName("layui-body")[0].clientHeight
       let iframeHeight = bodyElementHeight -70;
-      document.getElementsByTagName("iframe")[0].height = iframeHeight
+      let iframeTags = document.getElementsByTagName("iframe");
+      if(iframeTags.length > 0){
+        for (let i = 0; i < iframeTags.length; i++) {
+          iframeTags[i].height = iframeHeight;
+        }
+      }
     }
     var tabActive = {
 

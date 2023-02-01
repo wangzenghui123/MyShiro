@@ -2,9 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>角色管理</title>
+    <link rel="stylesheet" href="/shiro/layui/css/layui.css">
+    <style>
+
+        .layui-bg-gray .layui-col-md6 {
+            width: 100%;
+        }
+
+        .layui-bg-gray {
+            padding: 10px 5px;
+        }
+
+        .layui-bg-gray .layui-form-label {
+            width: 160px;
+            font-weight: 400;
+        }
+
+        .layui-bg-gray .layui-input-block {
+            overflow: hidden;
+        }
+
+        .layui-bg-gray .layui-input {
+            height: 35px;
+            line-height: 1.3;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .layui-layer-molv .layui-layer-btn .layui-layer-btn1 {
+            background: rgba(255, 255, 255, 0.99);
+        }
+
+        body .demo-class .layui-layer-title {
+            background: #009f95;
+            color: #fff;
+            border: none;
+        }
+
+        body .demo-class .layui-layer-btn {
+            border-top: 1px solid #fff
+        }
+
+        body .demo-class .layui-layer-btn a {
+            background: #009f95;
+        }
+
+        body .demo-class .layui-layer-btn .layui-layer-btn1 {
+            background: #fff;
+        }
+
+        .editForm form {
+            top: 20px;
+            position: relative;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .editForm .layui-form-item .layui-input-inline {
+            width: 380px;
+            text-align: left;
+        }
+
+        .editForm .layui-form-item .layui-input-inline button {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+<div>
+    <table id="roleTable" lay-filter="roleTableFilter"></table>
+    <div id="roleLaypage"></div>
+</div>
 
 </body>
+<script src="/shiro/layui/layui.js"></script>
+<script src="/shiro/js/core.util.js"></script>
+<script>
+    layui.use(['table','laypage'],function () {
+        var table = layui.table;
+        var laypage = layui.laypage;
+        var pageSearchParam = {
+            pageNum : 1,
+            pageSize : 10
+        }
+        var renderRoleTable = function (data) {
+            if(Array.isArray(data) && data.length > 0){
+                table.render({
+                    elem: '#roleTable'
+                    ,data: data
+                    ,even: true
+                    ,cols: [[ //表头
+                        {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        ,{field: 'name', title: '用户名', width:80}
+                        ,{field: 'description', title: '性别', width:80, sort: true}
+                        ,{field: 'status', title: '城市', width:80}
+                        ,{field: 'createTime', title: '签名', width: 177}
+                        ,{field: 'updateTime', title: '积分', width: 80, sort: true}
+                        ,{field: 'deleted', title: '评分', width: 80, sort: true}
+                    ]]
+                });
+            }
+        }
+
+        var renderRoleLaypage = function (curPageSize,pageNum,pageSize,totalPages,totalRows) {
+            laypage.render({
+                elem: 'roleLaypage' //注意，这里的 test1 是 ID，不用加 # 号
+                ,layout: ['prev', 'page', 'next','count','limit','refresh','skip']
+                ,count: totalRows
+                ,limit: pageSize
+                ,limits: [10, 20, 30, 40, 50]
+                ,curr: location.hash.replace('#!fenye=', '') //获取起始页
+                ,hash: pageNum //自定义hash值
+                ,groups: 2
+                ,prev: '上一页'
+                ,next: '下一页'
+                ,first: '首页'
+                ,last: '末页'
+                ,jump: function(obj, first){
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj)
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if(!first){
+                        //do something
+                    }
+                }
+
+            })
+
+        }
+        CoreUtil.sendAjax("/shiro/role/roles",JSON.stringify(pageSearchParam),function (data) {
+            if(data.code == "0"){
+                top.layer.msg(data.msg)
+                renderRoleTable(data.data.list);
+                renderRoleLaypage(data.data.curPageSize,data.data.pageNum,data.data.pageSize,data.data.totalPages,data.data.totalRows)
+            }else{
+                top.layer.msg(data.msg)
+            }
+            console.log(data)
+        },"POST",true,false,null)
+    })
+</script>
 </html>

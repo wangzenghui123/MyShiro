@@ -12,6 +12,12 @@
         where id = #{id}
     </select>
 
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="com.demo.myshiro.vo.req.RolePageReqVO">
+        select <include refid="Base_Column_List"></include>
+        from sys_role
+        where deleted = 1
+    </select>
+
     <select id="queryPermissionIdByRoleId" resultType="java.lang.String" parameterType="java.lang.String">
         select srp.permission_id
         from sys_role sr right join sys_role_permission srp on sr.id = srp.role_id

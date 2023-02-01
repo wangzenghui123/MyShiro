@@ -1,6 +1,7 @@
 package com.demo.myshiro.dao;
 
 import com.demo.myshiro.entity.Role;
+import com.demo.myshiro.vo.req.RolePageReqVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -14,5 +15,7 @@ public interface RoleDao {
     ArrayList<String> queryPermissionIdByRoleId(String roleId);
 
     List<Role> queryRolesByPermissionId(String id);
+
+    List<Role> selectAll(RolePageReqVO rolePageReqVO);
 
 }

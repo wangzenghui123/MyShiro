@@ -29,7 +29,4 @@ public class Constant {
 
     public static final String IDENTITY_CACHE_KEY= "com.demo.myshiro.SimpleAuthorizationInfo_";
 
-
-
-
 }
