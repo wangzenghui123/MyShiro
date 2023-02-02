@@ -70,13 +70,29 @@
             text-align: center;
         }
 
+        .roleLaypage{
+            background-color: #fafafa;
+            position: fixed;
+            width: 100%;
+            bottom: -4px;
+            z-index: 111111111;
+        }
+        body {
+            position: relative;
+            bottom: 23px;
+        }
+        .layui-laypage {
+            margin: 0;
+
+        }
+
     </style>
 </head>
 <body>
 <div class="roletable">
     <table id="roleTable" class="layui-table" lay-filter="roleTableFilter"></table>
 </div>
-<div id="roleLaypage"></div>
+<div id="roleLaypage" class="roleLaypage"></div>
 </body>
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
@@ -106,14 +122,41 @@
                         ,{field: 'name', title: '角色名称', width:150,align: 'center'}
                         ,{field: 'description', title: '描述', width:80,align: 'center'}
                         ,{field: 'status', title: '状态', width:80,align: 'center'}
-                        ,{field: 'createTime', title: '创建时间', width: 200,align: 'center'}
-                        ,{field: 'updateTime', title: '更新时间', width: 200,align: 'center'}
+                        ,{field: 'createTime', title: '创建时间', width: 200,align: 'center',templet: function (d) {
+                            return dateTemp(d.createTime, false)
+                        }}
+                        ,{field: 'updateTime', title: '更新时间', width: 200,align: 'center',templet: function (d) {
+                                return dateTemp(d.updateTime, false)
+                            }}
                         ,{field: 'deleted', title: '是否删除', width: 100,align: 'center'}
                     ]
                     ]
                 });
         }
+        var dateTemp = function (timestamp,fmt) {
+            let date = new Date(timestamp);
+            if (typeof date == 'string') {
+                return date;
+            }
 
+            if (!fmt) fmt = "yyyy-MM-dd hh:mm:ss";
+
+            if (!date || date == null) return null;
+            var o = {
+                'M+': date.getMonth() + 1, // 月份
+                'd+': date.getDate(), // 日
+                'h+': date.getHours(), // 小时
+                'm+': date.getMinutes(), // 分
+                's+': date.getSeconds(), // 秒
+                'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+                'S': date.getMilliseconds() // 毫秒
+            }
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+            for (var k in o) {
+                if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+            }
+            return fmt
+        }
         var renderRoleLaypage = async function (totalRows,pageNum) {
             laypage.render({
                 elem: 'roleLaypage' //注意，这里的 test1 是 ID，不用加 # 号
