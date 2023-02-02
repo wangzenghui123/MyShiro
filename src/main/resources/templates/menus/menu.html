@@ -290,6 +290,7 @@
 <div id="menuTree" hidden></div>
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
+
 <script type="text/html" id="typeTemp">
     {{#  if(d.type == 1){}}
     <button type="button" class="layui-btn layui-btn-xs layui-btn-warm">目录</button>
@@ -299,9 +300,10 @@
     <button type="button" class="layui-btn layui-btn-xs">按钮</button>
     {{#  } }}
 </script>
+
 <script type="text/html" id="statusTemp">
     {{#  if(d.status == 1){}}
-    <input type="checkbox" checked=""  lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF" disabled>
+    <input type="checkbox" checked=""  lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
     {{#  } else {}}
     <input type="checkbox"  lay-skin="switch" lay-text="ON|OFF">
     {{#  } }}
@@ -344,7 +346,9 @@
                     elem: '#menuTable',
                     toolbar: '#menuToolbar',
                     page: false,
-                    treeColIndex: 1,//层级关系展示在第几列
+                    even:true,
+                    size:'sm',
+                    treeColIndex: 0,//层级关系展示在第几列
                     treeSpid: 0,//是否有最高父id没有-1表示
                     treeIdName: 'id',//每条数据id 字段
                     treePidName: 'pid', //每天数据父id字段
@@ -353,8 +357,7 @@
                     defaultToolbar: ['filter', 'print', 'exports'],
                     cols: [
                         [
-                            {type: 'numbers'}
-                            , {field: 'name', title: '菜单名称', width: '180', align: 'center'}
+                            {field: 'name', title: '菜单名称', width: '180', align: 'center'}
                             , {field: 'perms', title: '权限标识符', width: '180', align: 'center'}
                             , {field: 'url', title: '资源地址', width: '150', align: 'center'}
                             , {field: 'pid', title: '父级id', width: '100', align: 'center',hide:true}

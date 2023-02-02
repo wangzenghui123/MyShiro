@@ -87,49 +87,51 @@
         var element = layui.element;
         var pageSearchParam = {
             pageNum : 1,
-            pageSize :20
+            pageSize :10
         }
-        table.render()
-        var renderRoleTable = function (data) {
+        var renderRoleTable = async function (data) {
             console.log(data.length)
             console.log(Array.isArray(data))
                 table.render({
                     elem: '#roleTable'
                     ,data: data
-                    ,even: true
+                    ,even: true //开启隔行背景
+                    ,size: 'sm' //小尺寸的表格
+                    ,title: '角色表'
+                    ,width: 'auto'
                     ,limit: pageSearchParam.pageSize
                     ,cols: [
-                        [ //表头
-                        {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        ,{field: 'name', title: '用户名', width:80}
-                        ,{field: 'description', title: '性别', width:80, sort: true}
-                        ,{field: 'status', title: '城市', width:80}
-                        ,{field: 'createTime', title: '签名', width: 177}
-                        ,{field: 'updateTime', title: '积分', width: 80, sort: true}
-                        ,{field: 'deleted', title: '评分', width: 80, sort: true}
+                        [
+                        {field: 'id', title: 'ID', width:80,align: 'center'}
+                        ,{field: 'name', title: '角色名称', width:150,align: 'center'}
+                        ,{field: 'description', title: '描述', width:80,align: 'center'}
+                        ,{field: 'status', title: '状态', width:80,align: 'center'}
+                        ,{field: 'createTime', title: '创建时间', width: 200,align: 'center'}
+                        ,{field: 'updateTime', title: '更新时间', width: 200,align: 'center'}
+                        ,{field: 'deleted', title: '是否删除', width: 100,align: 'center'}
                     ]
                     ]
                 });
-            element.init()
-
         }
 
-        var renderRoleLaypage = function (totalRows,pageNum) {
-            table.render()
+        var renderRoleLaypage = async function (totalRows,pageNum) {
             laypage.render({
                 elem: 'roleLaypage' //注意，这里的 test1 是 ID，不用加 # 号
                 ,count: totalRows
-                ,limit: 20
+                ,limit: pageSearchParam.pageSize
                 ,layout: ['prev', 'page', 'next','count','limit','limits','refresh','skip']
                 ,curr: location.hash.replace('#!fenye=', '') //获取起始页
                 ,hash: 'fenye' //自定义hash值
-                // ,groups: 2
-                // ,prev: '上一页'
-                // ,next: '下一页'
-                // ,first: '首页'
-                // ,last: '末页'
+                ,groups: 2
+                ,prev: '上一页'
+                ,next: '下一页'
+                ,first: '首页'
+                ,last: '末页'
                 ,jump: function(obj, first){
                     if(!first){
+                        if(obj.limit != pageSearchParam.pageSize){
+                            obj.curr = 1
+                        }
                         pageSearchParam.pageNum = obj.curr;
                         pageSearchParam.pageSize = obj.limit;
                         CoreUtil.sendAjax("/shiro/role/roles",JSON.stringify(pageSearchParam),function (data) {
