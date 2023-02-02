@@ -186,10 +186,10 @@
   </div>
 
 
-  <!-- 底部固定区域 -->
-  <div class="layui-footer">
-    底部固定区域
-  </div>
+<!--  &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
+<!--  <div class="layui-footer">-->
+<!--    底部固定区域-->
+<!--  </div>-->
 </div>
 </body>
 <script src="/shiro/layui/layui.js"></script>
@@ -253,7 +253,7 @@
 
     var fitFrame = function () {
       let bodyElementHeight= document.getElementsByClassName("layui-body")[0].clientHeight
-      let iframeHeight = bodyElementHeight -70;
+      let iframeHeight = bodyElementHeight -10;
       let iframeTags = document.getElementsByTagName("iframe");
       if(iframeTags.length > 0){
         for (let i = 0; i < iframeTags.length; i++) {
