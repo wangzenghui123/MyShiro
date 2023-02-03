@@ -114,12 +114,15 @@
       }
 
       .layui-layout-admin .layui-footer {
-        box-shadow: -1px 0 4px rgb(0 0 0 / 0%);
+        height: 17px;
+        line-height: 24px;
+        padding: 0px 0px;
+        box-shadow: 0px 0 0px rgb(0 0 0 / 12%);
       }
     </style>
 </head>
 <body>
-<div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin ">
 
 
   <div class="layui-header">
@@ -184,12 +187,10 @@
       <div class="layui-tab-content"></div>
     </div>
   </div>
-
-
-<!--  &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
-<!--  <div class="layui-footer">-->
-<!--    底部固定区域-->
-<!--  </div>-->
+  <!-- 底部固定区域 -->
+  <div class="layui-footer">
+    底部固定区域
+  </div>
 </div>
 </body>
 <script src="/shiro/layui/layui.js"></script>
@@ -253,7 +254,7 @@
 
     var fitFrame = function () {
       let bodyElementHeight= document.getElementsByClassName("layui-body")[0].clientHeight
-      let iframeHeight = bodyElementHeight -10;
+      let iframeHeight = bodyElementHeight -60;
       let iframeTags = document.getElementsByTagName("iframe");
       if(iframeTags.length > 0){
         for (let i = 0; i < iframeTags.length; i++) {
