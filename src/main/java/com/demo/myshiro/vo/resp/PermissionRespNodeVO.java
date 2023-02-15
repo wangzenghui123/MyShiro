@@ -45,4 +45,8 @@ public class PermissionRespNodeVO {
     @ApiModelProperty("默认展开")
     private Boolean spread = true;
 
+
+    @ApiModelProperty("默认展开")
+    private Boolean checked = false;
+
 }

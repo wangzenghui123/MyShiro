@@ -88,6 +88,7 @@
             margin: 0;
 
         }
+
         .layui-table-tool {
             position: relative;
             z-index: 890;
@@ -98,10 +99,12 @@
             border-width: 0;
             border-bottom-width: 1px;
         }
-        .demo-class{
+
+        .demo-class {
             position: static;
             bottom: 50px;
         }
+
         .layui-table-box {
             position: relative;
             overflow: hidden;
@@ -162,9 +165,9 @@
         </div>
 
         <div class="layui-form-item">
-            <div class="layui-inline">
+            <div class="layui-inline ">
                 <label class="layui-form-label">角色权限</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline demolist">
                     <input type="text" autocomplete="off" placeholder="点击选择角色权限" class="layui-input"
                            style="background-color: ghostwhite" disabled>
                 </div>
@@ -185,8 +188,11 @@
         </div>
 
     </form>
+
 </div>
+<div id="permissionTree" hidden=""></div>
 </body>
+
 <script src="/shiro/layui/layui.js"></script>
 <script src="/shiro/js/core.util.js"></script>
 <script type="text/html" id="statusTemp">
@@ -208,7 +214,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table', 'laypage', 'element','jquery'], function () {
+    layui.use(['table', 'laypage', 'element', 'jquery'], function () {
         var table = layui.table;
         var laypage = layui.laypage;
         var element = layui.element;
@@ -218,6 +224,7 @@
         }
         var form = layui.form;
         var $ = layui.jquery;
+        var tree = layui.tree;
         var renderRoleTable = async function (data) {
             table.render({
                 elem: '#roleTable'
@@ -226,27 +233,32 @@
                 , size: 'sm' //小尺寸的表格
                 , title: '角色表'
                 , toolbar: '#toolbarDemo'
-                , width: 'auto'
                 , defaultToolbar: ['filter', 'print', 'exports']
                 , limit: pageSearchParam.pageSize
                 , cols: [
                     [
-                        {field: 'id', title: 'ID',  align: 'center',width:'100'}
-                        , {field: 'name', title: '角色名称',  align: 'center',width:'100'}
-                        , {field: 'description', title: '描述',  align: 'center',width:'100'}
-                        , {field: 'status', title: '状态',  align: 'center', templet: '#statusTemp',width:'100'}
+                        {field: 'id', title: 'ID', align: 'center', width: '5%'}
+                        , {field: 'name', title: '角色名称', align: 'center', width: '10%'}
+                        , {field: 'description', title: '描述', align: 'center', width: '10%'}
+                        , {field: 'status', title: '状态', align: 'center', templet: '#statusTemp', width: '10%'}
                         , {
-                        field: 'createTime', title: '创建时间', align: 'center',width:'100', templet: function (d) {
+                        field: 'createTime', title: '创建时间', align: 'center', width: '10%', templet: function (d) {
                             return dateTemp(d.createTime, false)
                         }
                     }
                         , {
-                        field: 'updateTime', title: '更新时间', align: 'center',width:'100', templet: function (d) {
+                        field: 'updateTime', title: '更新时间', align: 'center', width: '10%', templet: function (d) {
                             return dateTemp(d.updateTime, false)
                         }
                     }
-                        , {field: 'deleted', title: '是否删除',  align: 'center',width:'100 ', templet: '#isDeleteTemp'}
-                        , {title: '操作', width: '130', align: 'center', templet: '#optTemp'}
+                        , {
+                        field: 'deleted',
+                        title: '是否删除',
+                        align: 'center',
+                        width: '10%',
+                        templet: '#isDeleteTemp'
+                    }
+                        , {title: '操作', width: '10%', align: 'center', templet: '#optTemp'}
                     ]
                 ]
             });
@@ -314,32 +326,42 @@
 
         }, "POST", true, true, null)
 
+        var lineData = null;
+        $("#editForm .layui-form-item:eq(1) .layui-inline:eq(0)").on("click", function () {
+            CoreUtil.sendAjax("/shiro/role/getPermissionTreeById",JSON.stringify(lineData), initMenuTree, "POST", true, true, null);
+        });
+
         //触发单元格工具事件
         table.on('tool(roleTableFilter)', function (obj) {
+            // $("#editForm .layui-form-item:eq(1) .layui-inline:eq(0)").on("click", function () {
+            //     alert(1)
+            //     //
+            // });
+
             var data = obj.data;
             var tr = obj.tr;
             if (obj.event === 'del') {
                 let confLayer = layer.confirm('真要删除吗？', {
-                    title:false
-                    ,closeBtn:0
-                    ,btn: ['确认', '取消']
-                }, function(index, layero){
+                    title: false
+                    , closeBtn: 0
+                    , btn: ['确认', '取消']
+                }, function (index, layero) {
                     layer.close(confLayer)
-                    if(data.deleted == "0"){
+                    if (data.deleted == "0") {
                         top.layer.msg("当前状态是'已删除'")
-                    }else{
-                        CoreUtil.sendAjax("/shiro/perms/deletePermission",JSON.stringify(data),function (respData) {
+                    } else {
+                        CoreUtil.sendAjax("/shiro/perms/deletePermission", JSON.stringify(data), function (respData) {
                             top.layer.msg(respData.msg);
-                            if(respData.code == "0"){
+                            if (respData.code == "0") {
                                 //CoreUtil.sendAjax("/shiro/perms/permissions", null, initTreeTable, "GET", true, false, null);
                                 let presentTr = $(tr);
                                 let obj01 = presentTr.find("td")
 
-                                obj01.each(function (index,elem) {
-                                    if($(elem).attr("data-field") == "deleted"){
+                                obj01.each(function (index, elem) {
+                                    if ($(elem).attr("data-field") == "deleted") {
                                         let aFirst = $(elem).find("a");
                                         $(aFirst[0]).html("已删除")
-                                        $(aFirst[0]).attr("class","layui-btn layui-btn-primary layui-border-red layui-btn-xs")
+                                        $(aFirst[0]).attr("class", "layui-btn layui-btn-primary layui-border-red layui-btn-xs")
                                         // if(aFirst != null && aFirst != undefined){
                                         //     $(aFirst).html("已删除")
                                         // }
@@ -348,14 +370,16 @@
                                 })
                             }
 
-                        },"DELETE",true,false,null)
+                        }, "DELETE", true, false, null)
                     }
 
-                }, function(index){
+                }, function (index) {
                     layer.close(confLayer)
                 });
             }
             else if (obj.event === 'edit') {
+                lineData = data;
+
                 $("#editForm [name='id']").val(data.id)
                 $("#editForm [name='name']").val(data.name)
                 $("#editForm [name='description']").val(data.description)
@@ -378,40 +402,55 @@
 
                 });
 
-            }
-            else;
+            };
         });
 
-        var chooseMenu = function (dom1,dom2) {
-            layerNode = layer.open({
+        var checkedPermission = [];
+        var chooseMenu = function () {
+            var permLayer = layer.open({
                 type: 1,
-                title: '选择菜单',
+                title: '选择权限',
                 skin: 'demo-class',
+                shade: false,
                 offset: '100px',
                 area: ['600px', '350px'],
                 btn: ['确认', '取消'],
                 closeBtn: 0,
-                content: $("#menuTree"),
+                zIndex: layer.zIndex*2, //重点1
+                content: $("#permissionTree"),
+                success: function(layero){
+                    layer.setTop(layero); //重点2
+                },
                 yes: function (index, layero) {
-                    if (selectNode == null) {
-                        top.layer.msg("您没有选择菜单，请点击选择!")
-                    } else {
-                        $(dom1).attr("placeholder", selectNode.title);
-                        $(dom2).val(selectNode.id)
-                        layer.close(index)
-                    }
+                    checkedPermission = tree.getChecked('treeId');
+                    layer.close(index)
                 },
                 btn2: function (index, layero) {
-                    selectNode = null;
-                    layer.close(index);
+                    checkedPermission = [];
+                    layer.close(index)
                 }
             });
         }
 
-        $("#editForm .layui-form-item:eq(1)").on("click", function () {
-            alert(1)
-            //chooseMenu("form .layui-input:eq(1)","#itemPid")
+        var initMenuTree = function (data) {
+            tree.render({
+                elem: '#permissionTree'
+                , data: data.data
+                , onlyIconControl: true
+                , showCheckbox: true
+                , id: 'treeId'
+            });
+            chooseMenu();
+        };
+
+        form.on('submit(editTable)', function(data){
+            let formJSON = data.field;
+            formJSON.permissions = checkedPermission;
+            console.log(formJSON) //当前容器的全部表单字段，名值对形式：{name: value}
+            CoreUtil.sendAjax("/shiro/role/updateRole",JSON.stringify(formJSON), undefined, "POST", true, true, null);
+            return false;
         });
+
     })
 </script>
 </html>

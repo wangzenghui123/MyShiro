@@ -30,6 +30,23 @@
         where srp.permission_id = #{id}
     </select>
 
+    <update id="updateRoleById">
+        update sys_role set name = #{roleName},description = #{description},update_time = #{updateTime}
+        where id = #{roleId}
+    </update>
+
+    <delete id="deletePermissionByRoleId" parameterType="java.lang.String">
+        delete from sys_role_permission where role_id = #{id}
+    </delete>
+
+    <insert id="addRolePermission">
+        insert into sys_role_permission values (#{id},#{roleId},#{permissionId},#{updateTime})
+    </insert>
+
+    <select id="queryUserIdByRoleId" parameterType="java.lang.String" resultType="java.lang.String">
+        select user_id from sys_user_role where role_id = #{roleId}
+    </select>
+
     <resultMap id="BaseResultMap" type="com.demo.myshiro.entity.Role">
         <id column="id" property="id"/>
         <result column="name" property="name"/>

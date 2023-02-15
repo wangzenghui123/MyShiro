@@ -30,9 +30,9 @@ public class JwtTokenUtil {
 
     public static String secretKey;
 
-    public static Duration accessTokenExpireTime;
+    public static Duration accessTokenExpireTime;//2h
 
-    public static Duration refreshTokenExpireTime;
+    public static Duration refreshTokenExpireTime;//8h
 
     public static Duration refreshTokenExpireAppTime;
 

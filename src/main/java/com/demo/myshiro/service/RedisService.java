@@ -25,6 +25,15 @@ public class RedisService {
         return false;
     }
 
+    public Long getExpire(String key,TimeUnit timeUnit) throws Exception {
+        if(key != null){
+            return  redisTemplate.getExpire(key,timeUnit);
+        }else{
+            throw new Exception("key值不能为空");
+        }
+
+    }
+
     public void put(String key, Object value, long time, TimeUnit timeUnit){
         redisTemplate.opsForValue().set(key,value,time,timeUnit);
     }

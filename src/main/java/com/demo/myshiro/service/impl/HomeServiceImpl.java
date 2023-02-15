@@ -51,34 +51,40 @@ public class HomeServiceImpl implements HomeService {
 
         HashSet<String> permissionIdSet = new HashSet<>();
         ArrayList<String> roleIdArr = sysUserDao.queryRoleIdByUserId(sysUser.getId());
-        for (String roleId : roleIdArr) {
-            ArrayList<String> permissionIdArr = roleDao.queryPermissionIdByRoleId(roleId);
-            for (String permissionId : permissionIdArr) {
-                permissionIdSet.add(permissionId);
-
+        if(roleIdArr != null && roleIdArr.size() > 0){
+            for (String roleId : roleIdArr) {
+                ArrayList<String> permissionIdArr = roleDao.queryPermissionIdByRoleId(roleId);
+                if(permissionIdArr != null && permissionIdArr.size() > 0){
+                    for (String permissionId : permissionIdArr) {
+                        permissionIdSet.add(permissionId);
+                    }
+                }
             }
         }
+
 
         List<PermissionRespNodeVO> permissionRespNodeVOList = new ArrayList<>();
         List<PermissionRespNodeVO> permissionRespNodeVOList01 = new ArrayList<>();
 
-        for (String permissionId : permissionIdSet) {
-            Permission permission = permissionDao.queryPermissionById(permissionId);
-            PermissionRespNodeVO permissionRespNodeVO = new PermissionRespNodeVO();
-            permissionRespNodeVO.setId(permission.getId());
-            permissionRespNodeVO.setPermission(permission.getPerms());
-            permissionRespNodeVO.setTitle(permission.getName());
-            permissionRespNodeVO.setUrl(permission.getUrl());
-            permissionRespNodeVO.setPid(permission.getPid());
-            permissionRespNodeVOList.add(permissionRespNodeVO);
+        if(permissionIdSet != null && permissionIdSet.size() > 0){
+            for (String permissionId : permissionIdSet) {
+                Permission permission = permissionDao.queryPermissionById(permissionId);
+                PermissionRespNodeVO permissionRespNodeVO = new PermissionRespNodeVO();
+                permissionRespNodeVO.setId(permission.getId());
+                permissionRespNodeVO.setPermission(permission.getPerms());
+                permissionRespNodeVO.setTitle(permission.getName());
+                permissionRespNodeVO.setUrl(permission.getUrl());
+                permissionRespNodeVO.setPid(permission.getPid());
+                permissionRespNodeVOList.add(permissionRespNodeVO);
+            }
         }
+
         for (PermissionRespNodeVO permissionRespNodeVO : permissionRespNodeVOList) {
             if(permissionRespNodeVO.getPid().equals("0")){
                 List<PermissionRespNodeVO> children = getChildren(permissionRespNodeVO, permissionRespNodeVOList);
                 permissionRespNodeVO.setChildren(children);
                 permissionRespNodeVOList01.add(permissionRespNodeVO);
             }
-
         }
         homeRespVO.setPermissionRespNodeVO(permissionRespNodeVOList01);
         return homeRespVO;

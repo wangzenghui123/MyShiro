@@ -82,8 +82,13 @@ public class PermissionServiceImpl  implements PermissionService {
     public List<PermissionRespNodeVO> selectAllMenuByTree() {
         List<Permission> permissions = selectAll();
         List<PermissionRespNodeVO> list = new ArrayList<>();
+        List<Permission> list1 = new ArrayList<>();
         for (Permission permission : permissions) {
             if(permission.getPid().equals("0")){
+                list1.add(permission);
+            }
+        }
+        for (Permission permission : list1) {
                 List<PermissionRespNodeVO> children = getChildren(permission, permissions);
                 PermissionRespNodeVO permissionRespNodeVO = new PermissionRespNodeVO();
                 permissionRespNodeVO.setChildren(children);
@@ -91,7 +96,6 @@ public class PermissionServiceImpl  implements PermissionService {
                 permissionRespNodeVO.setId(permission.getId());
                 permissionRespNodeVO.setPName("默认顶级菜单");
                 list.add(permissionRespNodeVO);
-            }
         }
         return list;
     }
